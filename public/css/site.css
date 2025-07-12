@@ -1,0 +1,121 @@
+
+body {
+    background-color: #fff;
+    font-family: "Muli", "Verdana", sans-serif;
+    color: #000;
+}
+
+#wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.nav {
+    margin: 0;
+}
+
+.navbar {
+    margin: 0;
+}
+
+.navbar-default {
+    margin: 0;
+}
+
+.navbar-inverse {
+    border-color: #242424;
+    margin: 0;
+}
+
+.page-header {
+    border-bottom: 0 solid #eee;
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+.page-header {
+    padding-bottom: 0;
+    margin: 0;
+    border-bottom: 0 solid #dddddd;
+}
+
+.header-block {
+    padding:0;
+    margin:0 auto 0 auto;
+    font-size:2.0em;
+    font-weight: normal;
+    text-align:center;
+}
+
+.container {
+    margin: 10px;
+}
+
+.container-fluid {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.panel-heading {
+    font-size:2.0em;
+    font-weight: bold;
+}
+
+.verb-table {
+    width: 100%;
+    border: 1px solid;
+}
+
+.verb-table th, .verb-table td {
+    border: 1px solid;
+    padding: 4px;
+}
+
+.verb-table-header {
+    text-align: center;
+    background-color: #c4c4c4;
+}
+
+.verb-table-entry {
+    font-size: 1.4em
+}
+
+.verb-table-verb {
+    width: 25%;
+}
+
+.verb-table-tense {
+    width: 25%;
+}
+
+.verb-table-person {
+    width: 50%;
+}
+
+.form-group-responses {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.4em
+}
+
+.verb-response-table {
+    width: 100%;
+}
+
+
+.verb-response-table-prompt {
+    width: 50%;
+}
+
+
+.verb-response-table-input {
+}
+
+.btn-verb {
+    background-color: #f3f3f3;
+}
