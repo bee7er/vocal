@@ -29,8 +29,8 @@
             // Successful update
             // Reload the national flag
             $("#nationalFlag").attr("src", response.flag);
-            // Reload the page to implement the change of nationality
-            location.reload();
+            // Reload the index page to implement the change of nationality
+            location.replace('/verb');
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
 

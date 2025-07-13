@@ -22,6 +22,14 @@ class Language extends Model
     protected $fillable = ['language', 'code', 'flag'];
 
     /**
+     * Retrieve the default language code
+     */
+    public static function getDefaultLanguageCode()
+    {
+        return config('app.default_language_code');
+    }
+
+    /**
      * Retrieve supported languages
      */
     public static function getLanguages()
@@ -45,7 +53,7 @@ class Language extends Model
      */
     public static function getCurrentLanguage()
     {
-        return self::where('code', "=", Session::get('languageCode'))->firstOrFail();
+        return self::where('code', "=", Session::get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
     }
 
 }

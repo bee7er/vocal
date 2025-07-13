@@ -45,7 +45,7 @@ class HomeController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = Session::get('languageCode', $this->getDefaultLanguageCode());
+		$languageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
 
 		return view('pages.home', compact('languageCode', 'languages', 'loggedIn'));

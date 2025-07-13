@@ -73,7 +73,10 @@ body {
 
 .verb-table th, .verb-table td {
     border: 1px solid;
-    padding: 4px;
+    padding: 5px;
+}
+
+.verb-table tr {
 }
 
 .verb-table-header {
@@ -105,17 +108,26 @@ body {
 
 .verb-response-table {
     width: 100%;
+    border-spacing: 50px !important;
 }
-
 
 .verb-response-table-prompt {
     width: 50%;
 }
 
-
 .verb-response-table-input {
+}
+
+.verb-response-table-sep {
+    line-height: 5px;
 }
 
 .btn-verb {
     background-color: #f3f3f3;
+}
+
+.speak-help {
+    color: #a2a2a2;
+    margin-left: 12px;
+    font-size: 0.7em;
 }

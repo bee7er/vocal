@@ -24,18 +24,10 @@ abstract class Controller extends BaseController
     public function __construct()
     {
         // Make sure we have a language set
-        $currentLanguageCode = Session::get('languageCode');
+        $currentLanguageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
         if (!isset($currentLanguageCode)) {
             Session::put('languageCode', $this->getDefaultLanguageCode());
         }
-    }
-
-    /**
-     * Retrieve the default language code
-     */
-    public function getDefaultLanguageCode()
-    {
-        return config('app.default_language_code');
     }
 
     /**
@@ -45,10 +37,6 @@ abstract class Controller extends BaseController
     {
         // Change the selected language
         $data = Input::get();
-
-
-        Log::notice(print_r($data, true));
-
         $lang = [];
         if (isset($data) && isset($data['languageCode'])) {
             $lang = Language::where('code', "=", $data['languageCode'])->firstOrFail();

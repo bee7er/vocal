@@ -15,7 +15,7 @@
                     @include('common.errors')
 
                             <!-- New Task Form -->
-                    <form action="{{ url('verb')}}" method="POST" class="form-horizontal">
+                    <form id="verbForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -47,8 +47,11 @@
 
                         <div class="form-group-responses">
 
+                            <input type="hidden" name="verbId" id="verbId" value="{{$verb['id']}}" />
                             <input type="hidden" name="infinitive" id="infinitive" value="{{$verb['infinitive']}}" />
+                            <input type="hidden" name="tenseId" id="tenseId" value="{{$tense['id']}}" />
                             <input type="hidden" name="tense" id="tense" value="{{$tense['tense']}}" />
+                            <input type="hidden" name="personId" id="personId" value="{{$person['id']}}" />
                             <input type="hidden" name="person" id="person" value="{{$person['person']}}" />
 
                             <table class="verb-response-table">
@@ -57,31 +60,36 @@
                                         Verb infinitive in english
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="text" name="infinitive" id="infinitive" class="response-text" />
+                                        <input type="text" name="englishInfinitive" value="{{$englishInfinitive}}" id="englishInfinitive" class="response-text" />
+                                        &nbsp;
+                                        <span id="hint" style="display: none">{{$verb['english']}}</span>
                                     </td>
                                 </tr>
+                                <tr><td colspan="2" class="verb-response-table-sep">&nbsp;</td></tr>
                                 <tr>
                                     <td class="verb-response-table-prompt">
                                         Verb conjugation in english
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="text" name="englishConjugation" id="englishConjugation" class="response-text" />
+                                        <input type="text" name="englishConjugation" value="{{$englishConjugation}}" id="englishConjugation" class="response-text" />
                                     </td>
                                 </tr>
+                                <tr><td colspan="2" class="verb-response-table-sep">&nbsp;</td></tr>
                                 <tr>
                                     <td class="verb-response-table-prompt">
                                         Verb conjugation in {{$currentLanguage->language}}
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="text" name="foreignConjugation" id="foreignConjugation" class="response-text" />
+                                        <input type="text" name="foreignConjugation" value="{{$foreignConjugation}}" id="foreignConjugation" class="response-text" />
                                     </td>
                                 </tr>
+                                <tr><td colspan="2" class="verb-response-table-sep">&nbsp;</td></tr>
                                 <tr>
                                     <td class="verb-response-table-prompt">
                                         Speak the conjugated phrase in {{$currentLanguage->language}}
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="checkbox" name="speak" id="speak" class="response-text" />
+                                        <input type="checkbox" name="speak" {{($speak!==null ? "checked='checked'": "")}} id="speak" class="response-text" /><span class="speak-help">(check when completed)</span>
                                     </td>
                                 </tr>
                             </table>
@@ -89,12 +97,16 @@
 
                         <!-- Action Button -->
                         <div class="form-group">
-                            <div style="text-align: right;padding-right: 10px;">
-                                <button type="button" class="btn btn-default btn-verb">
-                                    <i class="fa fa-btn fa-minus"></i>Hint
+                            <div style="text-align: right;padding-right: 15px;">
+                                <button type="button" class="btn btn-default btn-verb" onclick="showHint();">
+                                    <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
                                 &nbsp;
-                                <button type="submit" class="btn btn-default btn-verb">
+                                <button type="button" class="btn btn-default btn-verb" onclick="checkAnswers();">
+                                    <i class="fa fa-btn fa-check"></i>Check answers
+                                </button>
+                                &nbsp;
+                                <button type="button" class="btn btn-default btn-verb" onclick="nextVerb();">
                                     <i class="fa fa-btn fa-plus"></i>Next verb
                                 </button>
                             </div>
@@ -109,8 +121,23 @@
 
 @section('page-scripts')
     <script type="text/javascript">
+        function showHint() {
+            $('#hint').toggle();
+        }
+
+        function checkAnswers() {
+            $('#verbForm').attr("action", "{{ url('checkAnswers')}}");
+            $('#verbForm').submit();
+        }
+
+        function nextVerb() {
+            $('#verbForm').attr("action", "{{ url('nextVerb')}}");
+            $('#verbForm').submit();
+        }
+
         $(document).ready( function()
         {
+
         });
     </script>
 @endsection

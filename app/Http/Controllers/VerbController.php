@@ -44,41 +44,142 @@ class VerbController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		$loggedIn = false;
-		if ($this->auth->check()) {
-			$loggedIn = true;
-		}
 
-        $languageCode = Session::get('languageCode', $this->getDefaultLanguageCode());
-		$languages = Language::getLanguages();
-        $currentLanguage = Language::getCurrentLanguage();
+//		print_r($this->test());
+//		dd('done');
 
 		$verb = $this->getVerb();
 		$tense = $this->getTense();
 		$person = $this->getPerson();
 
-		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person', 'loggedIn'));
+		return $this->returnView($request, $verb, $tense, $person);
+	}
+
+	public function test()
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://www.google.com/");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		$response = curl_exec($ch);
+
+		curl_close($ch);
+
+		echo $response;
 	}
 
 	/**
-	 * Present a verb
+	 * Check submitted answers
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function checkAnswers(Request $request)
+	{
+        // Validate response to the verb/tense/person combination
+		$englishInfinitive = strtolower(trim($request->get("englishInfinitive")));
+		$englishConjugation = strtolower(trim($request->get("englishConjugation")));
+		$foreignConjugation = strtolower(trim($request->get("foreignConjugation")));
+		$speak = $request->get('speak');
+
+		// Represent the same verb/tense/person
+		$verb = $this->getVerb($request->get("verbId"));
+		$tense = $this->getTense($request->get("tenseId"));
+		$person = $this->getPerson($request->get("personId"));
+
+		$errors = [];
+		if ("" == $englishInfinitive) {
+			$errors[] = 'English infinitive is required';
+		}
+		elseif ("to" == $englishInfinitive) {
+			$errors[] = "English infinitive requires more than just 'to'";
+		} else {
+			if (!$this->validEnglishInfinitive($englishInfinitive, $verb)) {
+				$errors[] = "Could not find English infinitive in the corresponding verb details";
+			}
+		}
+		if ("" == $englishConjugation) {
+			$errors[] = 'English conjugation is required';
+		}
+		if ("" == $foreignConjugation) {
+			$errors[] = 'Foreign conjugation is required';
+		}
+		if (null === $speak) {
+			$errors[] = 'Give the speaking of the foreign conjugation a go!';
+		}
+
+		return $this->returnView($request, $verb, $tense, $person, $errors);
+	}
+
+	/**
+	 * Validate the English infinitive of the verb
+	 */
+	private function validEnglishInfinitive($englishInfinitive, $verb)
+	{
+		// Split up the response from the user
+		// Ignore 'to', as irrelevant
+		$wordFound = false;
+		// Check that any other words appear in the English version of the verb
+		$responseWords = explode(' ', $englishInfinitive);
+		foreach ($responseWords as $responseWord) {
+			if ('to' === $responseWord) {
+				continue;
+			}
+			// Check that at least one other word appears in the englisg versio of the verb
+			if (strpos($verb['english'], $responseWord) !== false) {
+				$wordFound = true;
+			}
+		}
+
+		return $wordFound;
+	}
+
+	/**
+	 * Present a new verb
 	 *
 	 * @param Request $request
 	 * @return Response
 	 */
 	public function nextVerb(Request $request)
 	{
-        // Validate response to the verb, tense and person combination
-
+        // Generate and return a new verb, tense and person combination
 		return $this->index($request);
+	}
+
+	/**
+	 * Retrieve the remaining form variables and the view
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	private function returnView(Request $request, $verb, $tense, $person, $errors=[])
+	{
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$languageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
+		$languages = Language::getLanguages();
+		$currentLanguage = Language::getCurrentLanguage();
+
+		$englishInfinitive = $request->get("englishInfinitive");
+		$englishConjugation = $request->get("englishConjugation");
+		$foreignConjugation = $request->get("foreignConjugation");
+		$speak = $request->get('speak');
+
+		//dd($speak);
+
+		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person',
+			'englishInfinitive', 'englishConjugation', 'foreignConjugation', 'speak', 'loggedIn', 'errors'));
 	}
 
 	/**
 	 * Retrieve a verb from the db table at random
 	 */
-	private function getVerb()
+	private function getVerb($id = null)
 	{
-		$verb = Verb::select(
+		$builder = Verb::select(
 			array(
 				'verbs.id',
 				'verbs.infinitive',
@@ -86,31 +187,41 @@ class VerbController extends Controller
 				'verbs.reflexive',
 				'verbs.lang',
 			)
-		)
-			->where("verbs.lang", "=", Session::get('languageCode'))
-            ->orderBy(DB::raw('RAND()'))
-			->limit(1)->get();
+		);
+		if (null !== $id) {
+			$verb = $builder->where("verbs.id", "=", $id)->get();
+		} else {
+			$verb = $builder
+				->where("verbs.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->orderBy(DB::raw('RAND()'))
+				->limit(1)->get();
+		}
 
 		// Returning just the data in an array
-        return (isset($verb[0]) ? $verb->toArray()[0]: null);
+		return (isset($verb[0]) ? $verb->toArray()[0]: null);
 	}
 
 	/**
 	 * Retrieve a tense from the db table at random
 	 */
-	private function getTense()
+	private function getTense($id = null)
 	{
-		$tense = Tense::select(
+		$builder = Tense::select(
 			array(
 				'tenses.id',
 				'tenses.tense',
 				'tenses.english',
 				'tenses.lang',
 			)
-		)
-            ->where("tenses.lang", "=", Session::get('languageCode'))
-            ->orderBy(DB::raw('RAND()'))
-			->limit(1)->get();
+		);
+		if (null !== $id) {
+			$tense = $builder->where("tenses.id", "=", $id)->get();
+		} else {
+			$tense = $builder
+				->where("tenses.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->orderBy(DB::raw('RAND()'))
+				->limit(1)->get();
+		}
 
         // Returning just the data in an array
         return (isset($tense[0]) ? $tense->toArray()[0]: null);
@@ -119,19 +230,24 @@ class VerbController extends Controller
 	/**
 	 * Retrieve a tense from the db table at random
 	 */
-	private function getPerson()
+	private function getPerson($id = null)
 	{
-		$person = Person::select(
+		$builder = Person::select(
 			array(
 				'persons.id',
 				'persons.person',
 				'persons.english',
 				'persons.lang',
 			)
-		)
-            ->where("persons.lang", "=", Session::get('languageCode'))
-            ->orderBy(DB::raw('RAND()'))
-			->limit(1)->get();
+		);
+		if (null !== $id) {
+			$person = $builder->where("persons.id", "=", $id)->get();
+		} else {
+			$person = $builder
+				->where("persons.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->orderBy(DB::raw('RAND()'))
+				->limit(1)->get();
+		}
 
         // Returning just the data in an array
         return (isset($person[0]) ? $person->toArray()[0]: null);

@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 Route::get('/verb', 'VerbController@index');
-Route::post('/verb', 'VerbController@nextVerb');
+Route::get('/checkAnswers', 'VerbController@checkAnswers');
+Route::post('/checkAnswers', 'VerbController@checkAnswers');
+Route::get('/nextVerb', 'VerbController@nextVerb');
+Route::post('/nextVerb', 'VerbController@nextVerb');
+Route::get('/changeLanguage', 'VerbController@index');
 Route::post('/changeLanguage', 'VerbController@changeLanguage');
 /**
  * Import data in CSV format
