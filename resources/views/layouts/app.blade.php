@@ -15,9 +15,9 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
-    <link href="{{ asset('css/site.css?v2') }}" rel="stylesheet">
+    <link href="{{ asset('css/site.css?v3') }}" rel="stylesheet">
     <!-- Javascript -->
-    <script type="text/javascript" src="/js/vocal.js"></script>
+    <script type="text/javascript" src="/js/vocal.js?v1"></script>
 
     <style>
         body {
@@ -40,9 +40,9 @@
             <!-- Branding Image -->
             <form id="headerForm" action="" method="POST" class="form-horizontal">
                 <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
-                <div class="navbar-brand" onclick="goHome('headerForm', '{{ url("/") }}');">
+                <a class="navbar-brand" onclick="goHome('headerForm', '{{ url("/") }}');">
                     Vocal
-                </div>
+                </a>
             </form>
 
             @include('partials.header')
@@ -58,5 +58,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 @yield('page-scripts')
+@yield('global-scripts')
 </body>
 </html>

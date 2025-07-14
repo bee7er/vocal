@@ -29,6 +29,5 @@
 @section('global-scripts')
     <script type="text/javascript">
 
-
     </script>
 @endsection

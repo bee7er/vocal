@@ -55,7 +55,6 @@
 
 @section('page-scripts')
     <script type="text/javascript">
-
         function playWithVerbs() {
             $('#homeForm').attr("action", "{{ url('verb')}}");
             $('#homeForm').submit();
@@ -70,6 +69,5 @@
             $('#homeForm').attr("action", "{{ url('adjective')}}");
             $('#homeForm').submit();
         }
-
     </script>
 @endsection

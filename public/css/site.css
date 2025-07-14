@@ -32,6 +32,10 @@ body {
     border-bottom: 0 solid #eee;
 }
 
+.navbar-brand {
+    cursor: pointer;
+}
+
 .row {
     margin: 0;
     padding: 0;
