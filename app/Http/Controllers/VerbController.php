@@ -48,9 +48,9 @@ class VerbController extends Controller
 //		print_r($this->test());
 //		dd('done');
 
-		$verb = $this->getVerb();
-		$tense = $this->getTense();
-		$person = $this->getPerson();
+		$verb = $this->getVerb($request);
+		$tense = $this->getTense($request);
+		$person = $this->getPerson($request);
 
 		return $this->returnView($request, $verb, $tense, $person, $includeFormFields);
 	}
@@ -83,9 +83,9 @@ class VerbController extends Controller
 		$speak = $request->get('speak');
 
 		// Represent the same verb/tense/person
-		$verb = $this->getVerb($request->get("verbId"));
-		$tense = $this->getTense($request->get("tenseId"));
-		$person = $this->getPerson($request->get("personId"));
+		$verb = $this->getVerb($request, $request->get("verbId"));
+		$tense = $this->getTense($request, $request->get("tenseId"));
+		$person = $this->getPerson($request, $request->get("personId"));
 
 		$errors = $msgs = [];
 		if ("" == $englishInfinitive) {
@@ -168,9 +168,9 @@ class VerbController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage();
+		$currentLanguage = Language::getCurrentLanguage($request);
 
 		$englishInfinitive = '';
 		$englishConjugation = '';
@@ -192,7 +192,7 @@ class VerbController extends Controller
 	/**
 	 * Retrieve a verb from the db table at random
 	 */
-	private function getVerb($id = null)
+	private function getVerb($request, $id = null)
 	{
 		$builder = Verb::select(
 			array(
@@ -207,7 +207,7 @@ class VerbController extends Controller
 			$verb = $builder->where("verbs.id", "=", $id)->get();
 		} else {
 			$verb = $builder
-				->where("verbs.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->where("verbs.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -219,7 +219,7 @@ class VerbController extends Controller
 	/**
 	 * Retrieve a tense from the db table at random
 	 */
-	private function getTense($id = null)
+	private function getTense($request, $id = null)
 	{
 		$builder = Tense::select(
 			array(
@@ -233,7 +233,7 @@ class VerbController extends Controller
 			$tense = $builder->where("tenses.id", "=", $id)->get();
 		} else {
 			$tense = $builder
-				->where("tenses.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->where("tenses.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -245,7 +245,7 @@ class VerbController extends Controller
 	/**
 	 * Retrieve a tense from the db table at random
 	 */
-	private function getPerson($id = null)
+	private function getPerson($request, $id = null)
 	{
 		$builder = Person::select(
 			array(
@@ -259,7 +259,7 @@ class VerbController extends Controller
 			$person = $builder->where("persons.id", "=", $id)->get();
 		} else {
 			$person = $builder
-				->where("persons.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->where("persons.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

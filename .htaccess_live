@@ -1,0 +1,9 @@
+
+Options -Indexes
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^powerhouse.industries$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^powerhouse.industries$
+RewriteCond %{REQUEST_URI} !public/
+RewriteRule (.*) https://powerhouse.industries/public/$1 [L]
+AddType x-httpd-php72 .php

@@ -42,7 +42,7 @@ class AdverbController extends Controller
 	 */
 	public function index(Request $request, $includeFormFields=true)
 	{
-		$adverb = $this->getAdverb();
+		$adverb = $this->getAdverb($request);
 
 		return $this->returnView($request, $adverb, $includeFormFields);
 	}
@@ -69,7 +69,7 @@ class AdverbController extends Controller
 	{
         // Validate response to the adverb
 		$englishAdverb = strtolower(trim($request->get("englishAdverb")));
-		$adverb = $this->getAdverb($request->get("adverbId"));
+		$adverb = $this->getAdverb($request, $request->get("adverbId"));
 
 		$errors = $msgs = [];
 		if ("" == $englishAdverb) {
@@ -124,9 +124,9 @@ class AdverbController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage();
+		$currentLanguage = Language::getCurrentLanguage($request);
 
 		$englishAdverb = '';
 		if ($includeFormFields) {
@@ -140,7 +140,7 @@ class AdverbController extends Controller
 	/**
 	 * Retrieve a adverb from the db table at random
 	 */
-	private function getAdverb($id = null)
+	private function getAdverb(Request $request, $id = null)
 	{
 		$builder = Adverb::select(
 			array(
@@ -154,7 +154,7 @@ class AdverbController extends Controller
 			$adverb = $builder->where("adverbs.id", "=", $id)->get();
 		} else {
 			$adverb = $builder
-				->where("adverbs.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->where("adverbs.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

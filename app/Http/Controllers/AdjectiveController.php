@@ -42,7 +42,7 @@ class AdjectiveController extends Controller
 	 */
 	public function index(Request $request, $includeFormFields=true)
 	{
-		$adjective = $this->getAdjective();
+		$adjective = $this->getAdjective($request);
 
 		return $this->returnView($request, $adjective, $includeFormFields);
 	}
@@ -69,7 +69,7 @@ class AdjectiveController extends Controller
 	{
         // Validate response to the adjective
 		$englishAdjective = strtolower(trim($request->get("englishAdjective")));
-		$adjective = $this->getAdjective($request->get("adjectiveId"));
+		$adjective = $this->getAdjective($request, $request->get("adjectiveId"));
 
 		$errors = $msgs = [];
 		if ("" == $englishAdjective) {
@@ -124,9 +124,9 @@ class AdjectiveController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = Session::get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage();
+		$currentLanguage = Language::getCurrentLanguage($request);
 
 		$englishAdjective = '';
 		if ($includeFormFields) {
@@ -140,7 +140,7 @@ class AdjectiveController extends Controller
 	/**
 	 * Retrieve a adjective from the db table at random
 	 */
-	private function getAdjective($id = null)
+	private function getAdjective(Request $request, $id = null)
 	{
 		$builder = Adjective::select(
 			array(
@@ -154,7 +154,7 @@ class AdjectiveController extends Controller
 			$adjective = $builder->where("adjectives.id", "=", $id)->get();
 		} else {
 			$adjective = $builder
-				->where("adjectives.lang", "=", Session::get('languageCode', Language::getDefaultLanguageCode()))
+				->where("adjectives.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

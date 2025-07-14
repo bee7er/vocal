@@ -28,7 +28,7 @@ Route::post('/checkAdjectiveAnswers', 'AdjectiveController@checkAnswers');
 Route::get('/nextAdjective', 'AdjectiveController@nextAdjective');
 Route::post('/nextAdjective', 'AdjectiveController@nextAdjective');
 
-Route::get('/changeLanguage', 'LanguageController@index');
+Route::get('/changeLanguage', 'LanguageController@changeLanguage');
 Route::post('/changeLanguage', 'LanguageController@changeLanguage');
 /**
  * Import data in CSV format

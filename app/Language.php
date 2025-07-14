@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class Language extends Model
@@ -51,9 +52,9 @@ class Language extends Model
     /**
      * Retrieve the currently selected language object
      */
-    public static function getCurrentLanguage()
+    public static function getCurrentLanguage(Request $request)
     {
-        return self::where('code', "=", Session::get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
+        return self::where('code', "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
     }
 
 }

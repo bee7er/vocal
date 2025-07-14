@@ -59,6 +59,10 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div style="text-align: right;padding-right: 15px;">
+                                <button type="button" class="btn btn-default btn-adverb" onclick="goHome('adverbForm', '{{ url('/')}}');">
+                                    <i class="fa fa-btn fa-home"></i>Home
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-adverb" onclick="showHint();">
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
