@@ -15,8 +15,9 @@
                     @include('common.errors')
 
                             <!-- New Task Form -->
-                    <form id="homeForm" action="" method="GET" class="form-horizontal">
+                    <form id="homeForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
+                        <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
 
                         <!-- Action Button -->
                         <div class="form-group">

@@ -124,7 +124,7 @@ class AdverbController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
 		$currentLanguage = Language::getCurrentLanguage($request);
 
@@ -154,7 +154,7 @@ class AdverbController extends Controller
 			$adverb = $builder->where("adverbs.id", "=", $id)->get();
 		} else {
 			$adverb = $builder
-				->where("adverbs.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("adverbs.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

@@ -54,7 +54,7 @@ class Language extends Model
      */
     public static function getCurrentLanguage(Request $request)
     {
-        return self::where('code', "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
+        return self::where('code', "=", $request->get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
     }
 
 }

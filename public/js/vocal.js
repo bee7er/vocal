@@ -11,6 +11,14 @@ function goHome(formId, url) {
  */
 function changeLanguage(languageCode)
 {
+    location.replace('/?languageCode=' + languageCode);
+}
+
+/**
+ * Ajax change the current language
+ */
+function ajaxChangeLanguage(languageCode)
+{
     let url = "/changeLanguage";
     ajaxCall(url,
         JSON.stringify({'languageCode': languageCode})

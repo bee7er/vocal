@@ -168,7 +168,7 @@ class VerbController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
 		$currentLanguage = Language::getCurrentLanguage($request);
 
@@ -207,7 +207,7 @@ class VerbController extends Controller
 			$verb = $builder->where("verbs.id", "=", $id)->get();
 		} else {
 			$verb = $builder
-				->where("verbs.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("verbs.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -233,7 +233,7 @@ class VerbController extends Controller
 			$tense = $builder->where("tenses.id", "=", $id)->get();
 		} else {
 			$tense = $builder
-				->where("tenses.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("tenses.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -259,7 +259,7 @@ class VerbController extends Controller
 			$person = $builder->where("persons.id", "=", $id)->get();
 		} else {
 			$person = $builder
-				->where("persons.lang", "=", $request->session()->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("persons.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

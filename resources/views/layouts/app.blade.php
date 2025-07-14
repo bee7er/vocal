@@ -38,9 +38,12 @@
             @endif
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
-                Vocal
-            </a>
+            <form id="headerForm" action="" method="POST" class="form-horizontal">
+                <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
+                <div class="navbar-brand" onclick="goHome('headerForm', '{{ url("/") }}');">
+                    Vocal
+                </div>
+            </form>
 
             @include('partials.header')
         </div>

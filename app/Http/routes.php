@@ -11,24 +11,23 @@ use App\Task;
 use Illuminate\Http\Request;
 
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
-Route::get('/verb', 'VerbController@index');
+Route::post('/home', 'HomeController@index');
+Route::post('/verb', 'VerbController@index');
 Route::get('/checkAnswers', 'VerbController@checkAnswers');
 Route::post('/checkAnswers', 'VerbController@checkAnswers');
 Route::get('/nextVerb', 'VerbController@nextVerb');
 Route::post('/nextVerb', 'VerbController@nextVerb');
-Route::get('/adverb', 'AdverbController@index');
+Route::post('/adverb', 'AdverbController@index');
 Route::get('/checkAdverbAnswers', 'AdverbController@checkAnswers');
 Route::post('/checkAdverbAnswers', 'AdverbController@checkAnswers');
 Route::get('/nextAdverb', 'AdverbController@nextAdverb');
 Route::post('/nextAdverb', 'AdverbController@nextAdverb');
-Route::get('/adjective', 'AdjectiveController@index');
+Route::post('/adjective', 'AdjectiveController@index');
 Route::get('/checkAdjectiveAnswers', 'AdjectiveController@checkAnswers');
 Route::post('/checkAdjectiveAnswers', 'AdjectiveController@checkAnswers');
 Route::get('/nextAdjective', 'AdjectiveController@nextAdjective');
 Route::post('/nextAdjective', 'AdjectiveController@nextAdjective');
 
-Route::get('/changeLanguage', 'LanguageController@changeLanguage');
 Route::post('/changeLanguage', 'LanguageController@changeLanguage');
 /**
  * Import data in CSV format

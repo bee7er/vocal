@@ -24,9 +24,9 @@ class LanguageController extends Controller
 	public function __construct(Request $request)
 	{
 		// Make sure we have a language set
-		$currentLanguageCode = $request->session()->get('languageCode', Language::getDefaultLanguageCode());
+		$currentLanguageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
 		if (!isset($currentLanguageCode)) {
-			$request->session()->put('languageCode', Language::getDefaultLanguageCode());
+			$request->request->add(['languageCode' => Language::getDefaultLanguageCode()]);
 		}
 	}
 
@@ -41,7 +41,7 @@ class LanguageController extends Controller
 		if (isset($data) && isset($data['languageCode'])) {
 			$lang = Language::where('code', "=", $data['languageCode'])->firstOrFail();
 
-			$request->session()->put('languageCode', $data['languageCode']);
+			$request->request->add(['languageCode' => $data['languageCode']]);
 		}
 
 		return $lang;
