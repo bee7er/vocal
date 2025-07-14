@@ -71,24 +71,32 @@ body {
     border: 1px solid;
 }
 
-.verb-table th, .verb-table td {
+.adverb-table, .adjective-table {
+    width: 100%;
+    border: 1px solid;
+    text-align: center;
+}
+
+.verb-table th, .verb-table td,
+    .adverb-table th, .adverb-table td,
+    .adjective-table th, .adjective-table td {
     border: 1px solid;
     padding: 5px;
 }
 
-.verb-table tr {
+.verb-table tr, .adverb-table tr, .adjective-table tr {
 }
 
-.verb-table-header {
+.verb-table-header, .adverb-table-header, .adjective-table-header {
     text-align: center;
     background-color: #c4c4c4;
 }
 
-.verb-table-entry {
+.verb-table-entry, .adverb-table-entry, .adjective-table-entry {
     font-size: 1.4em
 }
 
-.verb-table-verb {
+.verb-table-verb, .adverb-table-verb {
     width: 25%;
 }
 
@@ -100,29 +108,44 @@ body {
     width: 50%;
 }
 
+.page-group {
+    width: 100%;
+}
+
+.form-group-adverb, .form-group-adjective {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
 .form-group-responses {
     width: 100%;
-    padding: 10px;
-    font-size: 1.4em
+    font-size: 1.4em;
 }
 
 .verb-response-table {
     width: 100%;
-    border-spacing: 50px !important;
 }
 
-.verb-response-table-prompt {
+.adverb-response-table, .adjective-response-table {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.verb-response-table-prompt, .adverb-response-table-prompt, .adjective-response-table-prompt {
     width: 50%;
 }
 
-.verb-response-table-input {
+.verb-response-table-input, .adverb-response-table-input, .adjective-response-table-input {
 }
 
-.verb-response-table-sep {
+.verb-response-table-sep, .adverb-response-table-sep {
     line-height: 5px;
 }
 
-.btn-verb {
+.btn-verb, .btn-adverb, .btn-adjective {
     background-color: #f3f3f3;
 }
 

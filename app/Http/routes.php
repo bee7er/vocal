@@ -17,8 +17,19 @@ Route::get('/checkAnswers', 'VerbController@checkAnswers');
 Route::post('/checkAnswers', 'VerbController@checkAnswers');
 Route::get('/nextVerb', 'VerbController@nextVerb');
 Route::post('/nextVerb', 'VerbController@nextVerb');
-Route::get('/changeLanguage', 'VerbController@index');
-Route::post('/changeLanguage', 'VerbController@changeLanguage');
+Route::get('/adverb', 'AdverbController@index');
+Route::get('/checkAdverbAnswers', 'AdverbController@checkAnswers');
+Route::post('/checkAdverbAnswers', 'AdverbController@checkAnswers');
+Route::get('/nextAdverb', 'AdverbController@nextAdverb');
+Route::post('/nextAdverb', 'AdverbController@nextAdverb');
+Route::get('/adjective', 'AdjectiveController@index');
+Route::get('/checkAdjectiveAnswers', 'AdjectiveController@checkAnswers');
+Route::post('/checkAdjectiveAnswers', 'AdjectiveController@checkAnswers');
+Route::get('/nextAdjective', 'AdjectiveController@nextAdjective');
+Route::post('/nextAdjective', 'AdjectiveController@nextAdjective');
+
+Route::get('/changeLanguage', 'LanguageController@index');
+Route::post('/changeLanguage', 'LanguageController@changeLanguage');
 /**
  * Import data in CSV format
  * Data to be located here:

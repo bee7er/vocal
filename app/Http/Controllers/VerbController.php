@@ -42,7 +42,7 @@ class VerbController extends Controller
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function index(Request $request)
+	public function index(Request $request, $includeFormFields=true)
 	{
 
 //		print_r($this->test());
@@ -52,7 +52,7 @@ class VerbController extends Controller
 		$tense = $this->getTense();
 		$person = $this->getPerson();
 
-		return $this->returnView($request, $verb, $tense, $person);
+		return $this->returnView($request, $verb, $tense, $person, $includeFormFields);
 	}
 
 	public function test()
@@ -87,7 +87,7 @@ class VerbController extends Controller
 		$tense = $this->getTense($request->get("tenseId"));
 		$person = $this->getPerson($request->get("personId"));
 
-		$errors = [];
+		$errors = $msgs = [];
 		if ("" == $englishInfinitive) {
 			$errors[] = 'English infinitive is required';
 		}
@@ -108,7 +108,11 @@ class VerbController extends Controller
 			$errors[] = 'Give the speaking of the foreign conjugation a go!';
 		}
 
-		return $this->returnView($request, $verb, $tense, $person, $errors);
+		if (0 >= count($errors)) {
+			$msgs[] = "Your translation was correct";
+		}
+
+		return $this->returnView($request, $verb, $tense, $person, true, $errors, $msgs);
 	}
 
 	/**
@@ -125,8 +129,13 @@ class VerbController extends Controller
 			if ('to' === $responseWord) {
 				continue;
 			}
-			// Check that at least one other word appears in the englisg versio of the verb
-			if (strpos($verb['english'], $responseWord) !== false) {
+			// Here we add a space at the end of the english version of the adverb, so
+			// that we can do a string search for the full word
+			if (strpos(($verb['english'] . ' '), ($responseWord . ' ')) !== false) {
+				$wordFound = true;
+			}
+			// Words can be separated by semi-colons, too, so try that
+			if (strpos(($verb['english'] . ';'), ($responseWord . ';')) !== false) {
 				$wordFound = true;
 			}
 		}
@@ -143,7 +152,7 @@ class VerbController extends Controller
 	public function nextVerb(Request $request)
 	{
         // Generate and return a new verb, tense and person combination
-		return $this->index($request);
+		return $this->index($request, false);
 	}
 
 	/**
@@ -152,7 +161,7 @@ class VerbController extends Controller
 	 * @param Request $request
 	 * @return Response
 	 */
-	private function returnView(Request $request, $verb, $tense, $person, $errors=[])
+	private function returnView(Request $request, $verb, $tense, $person, $includeFormFields, $errors=[], $msgs=[])
 	{
 		$loggedIn = false;
 		if ($this->auth->check()) {
@@ -163,15 +172,21 @@ class VerbController extends Controller
 		$languages = Language::getLanguages();
 		$currentLanguage = Language::getCurrentLanguage();
 
-		$englishInfinitive = $request->get("englishInfinitive");
-		$englishConjugation = $request->get("englishConjugation");
-		$foreignConjugation = $request->get("foreignConjugation");
-		$speak = $request->get('speak');
+		$englishInfinitive = '';
+		$englishConjugation = '';
+		$foreignConjugation = '';
+		$speak = null;
+		if ($includeFormFields) {
+			$englishInfinitive = $request->get("englishInfinitive");
+			$englishConjugation = $request->get("englishConjugation");
+			$foreignConjugation = $request->get("foreignConjugation");
+			$speak = $request->get('speak');
+		}
 
 		//dd($speak);
 
 		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person',
-			'englishInfinitive', 'englishConjugation', 'foreignConjugation', 'speak', 'loggedIn', 'errors'));
+			'englishInfinitive', 'englishConjugation', 'foreignConjugation', 'speak', 'loggedIn', 'errors', 'msgs'));
 	}
 
 	/**

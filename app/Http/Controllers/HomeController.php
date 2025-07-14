@@ -28,7 +28,6 @@ class HomeController extends Controller
 	 */
 	public function __construct(Guard $auth)
 	{
-		parent::__construct();
 		$this->auth = $auth;
 	}
 

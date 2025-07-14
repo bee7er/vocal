@@ -11,7 +11,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <!-- Display Validation Errors -->
+                    <!-- Display Msgs -->
+                    @include('common.msgs')
+                            <!-- Display Validation Errors -->
                     @include('common.errors')
 
                             <!-- New Task Form -->
