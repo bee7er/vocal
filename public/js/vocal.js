@@ -3,7 +3,7 @@
  */
 function goHome(formId, url) {
     $('#' + formId).attr("action", url);
-    $('#' + formId).attr("method", "GET");
+    $('#' + formId).attr("method", "POST");
     $('#' + formId).submit();
 }
 /**

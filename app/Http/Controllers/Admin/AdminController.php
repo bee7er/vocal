@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Language;
 use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
 
 /**
- * Class HomeController
+ * Class AdminController
  * @package App\Http\Controllers
  */
-class HomeController extends Controller
+class AdminController extends Controller
 {
 	/**
 	 * The Guard implementation.
@@ -31,7 +32,7 @@ class HomeController extends Controller
 	}
 
 	/**
-	 * Show the application dashboard to the user.
+	 * Show the admin dashboard to the user.
 	 *
 	 * @param Request $request
 	 * @return Response
@@ -48,7 +49,7 @@ class HomeController extends Controller
 		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
 		$languages = Language::getLanguages();
 
-		return view('pages.home', compact('languageCode', 'languages', 'loggedIn', 'errors', 'msgs'));
+		return view('pages.admin.admin', compact('languageCode', 'languages', 'loggedIn', 'errors', 'msgs'));
 	}
 
 }

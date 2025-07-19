@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class Language extends Model
 {
@@ -54,7 +53,7 @@ class Language extends Model
      */
     public static function getCurrentLanguage(Request $request)
     {
-        return self::where('code', "=", $request->get('languageCode', Language::getDefaultLanguageCode()))->firstOrFail();
+        return self::where('code', "=", $request->get('languageCode', self::getDefaultLanguageCode()))->firstOrFail();
     }
 
 }

@@ -7,11 +7,10 @@
         <div class="col-sm-offset-2 col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Home Page Actions
+                    Admin Page Actions
                 </div>
 
                 <div class="panel-body">
-                    @include('common.msgs')
                     @include('common.errors')
 
                     <form id="homeForm" action="" method="POST" class="form-horizontal">
@@ -21,8 +20,8 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-default" onclick="playWithVerbs();">
-                                    <i class="fa fa-btn fa-plus"></i>Play with verbs
+                                <button type="submit" class="btn btn-default" onclick="workWithVerbs();">
+                                    <i class="fa fa-btn fa-plus"></i>Work with verbs
                                 </button>
                             </div>
                         </div>
@@ -30,8 +29,8 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-default" onclick="playWithAdverbs();">
-                                    <i class="fa fa-btn fa-plus"></i>Play with adverbs
+                                <button type="submit" class="btn btn-default" onclick="workWithAdverbs();">
+                                    <i class="fa fa-btn fa-plus"></i>Work with adverbs
                                 </button>
                             </div>
                         </div>
@@ -39,8 +38,8 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <button type="submit" class="btn btn-default" onclick="playWithAdjectives();">
-                                    <i class="fa fa-btn fa-plus"></i>Play with adjectives
+                                <button type="submit" class="btn btn-default" onclick="workWithAdjectives();">
+                                    <i class="fa fa-btn fa-plus"></i>Work with adjectives
                                 </button>
                             </div>
                         </div>
@@ -54,18 +53,18 @@
 
 @section('page-scripts')
     <script type="text/javascript">
-        function playWithVerbs() {
-            $('#homeForm').attr("action", "{{ url('verb')}}");
+        function workWithVerbs() {
+            $('#homeForm').attr("action", "{{ url('workWithVerbs')}}");
             $('#homeForm').submit();
         }
 
-        function playWithAdverbs() {
-            $('#homeForm').attr("action", "{{ url('adverb')}}");
+        function workWithAdverbs() {
+            $('#homeForm').attr("action", "{{ url('workWithAdverbs')}}");
             $('#homeForm').submit();
         }
 
-        function playWithAdjectives() {
-            $('#homeForm').attr("action", "{{ url('adjective')}}");
+        function workWithAdjectives() {
+            $('#homeForm').attr("action", "{{ url('workWithAdjectives')}}");
             $('#homeForm').submit();
         }
     </script>

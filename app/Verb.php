@@ -18,6 +18,6 @@ class Verb extends Model
      *
      * @var array
      */
-    protected $fillable = ['infinitive', 'reflexive', 'english'];
+    protected $fillable = ['infinitive', 'reflexive', 'english', 'lang'];
 
 }

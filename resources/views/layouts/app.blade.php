@@ -40,8 +40,11 @@
             <!-- Branding Image -->
             <form id="headerForm" action="" method="POST" class="form-horizontal">
                 <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
-                <a class="navbar-brand" onclick="goHome('headerForm', '{{ url("/") }}');">
-                    Vocal
+                <a class="navbar-brand" onclick="goHome('headerForm', '{{ url("/home") }}');">
+                    Home
+                </a>
+                <a class="navbar-brand" onclick="goHome('headerForm', '{{ url("/admin") }}');">
+                    Admin
                 </a>
             </form>
 

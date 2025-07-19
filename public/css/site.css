@@ -158,3 +158,19 @@ body {
     margin-left: 12px;
     font-size: 0.7em;
 }
+
+.index-title {
+    text-align: left;
+    display: inline-block;
+    width: 50%;
+}
+
+.index-action {
+    text-align: right;
+    display: inline-block;
+    width: 50%;
+}
+
+.input-position {
+    margin-left: 20px;
+}

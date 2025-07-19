@@ -11,12 +11,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <!-- Display Msgs -->
                     @include('common.msgs')
-                            <!-- Display Validation Errors -->
                     @include('common.errors')
 
-                            <!-- New Task Form -->
                     <form id="verbForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
                         <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
@@ -101,7 +98,7 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div style="text-align: right;padding-right: 15px;">
-                                <button type="button" class="btn btn-default btn-verb" onclick="goHome('verbForm', '{{ url('/')}}')">
+                                <button type="button" class="btn btn-default btn-verb" onclick="goHome('verbForm', '{{ url('/home')}}')">
                                     <i class="fa fa-btn fa-home"></i>Home
                                 </button>
                                 &nbsp;
