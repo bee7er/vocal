@@ -20,14 +20,14 @@
 
                         <div class="form-group">
                             <div class="form-group-adjective">
-                                <table class="adjective-table">
+                                <table class="vocal-table">
                                     <tr>
-                                        <th class="adjective-table-header">
+                                        <th class="vocal-table-header">
                                             Adjective
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="adjective-table-entry adjective-table-verb">
+                                        <td class="vocal-table-entry center-entry">
                                             @if(is_array($adjective)){{$adjective['adjective']}}@else Not found @endif
                                         </td>
                                     </tr>

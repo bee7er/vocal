@@ -18,7 +18,7 @@ class TensesTableSeeder extends Seeder {
 
         $tense = new Tense();
         $tense->tense = 'passé composé';
-        $tense->english = 'present perfect';
+        $tense->english = 'past';
         $tense->lang = 'fr';
         $tense->save();
 
@@ -47,8 +47,8 @@ class TensesTableSeeder extends Seeder {
         $tense->save();
 
         $tense = new Tense();
-        $tense->tense = 'presente prossimo';
-        $tense->english = 'present perfect';
+        $tense->tense = 'passato prossimo';
+        $tense->english = 'past';
         $tense->lang = 'it';
         $tense->save();
 

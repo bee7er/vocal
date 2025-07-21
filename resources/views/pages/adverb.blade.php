@@ -20,14 +20,14 @@
 
                         <div class="form-group">
                             <div class="form-group-adverb">
-                                <table class="adverb-table">
+                                <table class="vocal-table">
                                     <tr>
-                                        <th class="adverb-table-header">
+                                        <th class="vocal-table-header">
                                             Adverb
                                         </th>
                                     </tr>
                                     <tr>
-                                        <td class="adverb-table-entry adverb-table-verb">
+                                        <td class="vocal-table-entry center-entry">
                                             @if(is_array($adverb)){{$adverb['adverb']}}@else Not found @endif
                                         </td>
                                     </tr>

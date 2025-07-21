@@ -19,26 +19,26 @@
                         <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
 
                         <div class="form-group">
-                            <table class="verb-table">
+                            <table class="vocal-table">
                                 <tr>
-                                    <th class="verb-table-header">
+                                    <th class="vocal-table-header">
                                         Verb
                                     </th>
-                                    <th class="verb-table-header">
+                                    <th class="vocal-table-header">
                                         Tense
                                     </th>
-                                    <th class="verb-table-header">
+                                    <th class="vocal-table-header">
                                         Person
                                     </th>
                                 </tr>
                                 <tr>
-                                    <td class="verb-table-entry verb-table-verb">
+                                    <td class="vocal-table-entry">
                                         @if(is_array($verb)){{$verb['infinitive']}}@else Not found @endif
                                     </td>
-                                    <td class="verb-table-entry verb-table-tense">
+                                    <td class="vocal-table-entry vocal-table-tense">
                                         @if(is_array($tense)){{$tense['tense']}}@else Not found @endif
                                     </td>
-                                    <td class="verb-table-entry verb-table-person">
+                                    <td class="vocal-table-entry vocal-table-person">
                                         @if(is_array($person)){{$person['person']}}@else Not found @endif
                                     </td>
                                 </tr>
@@ -98,19 +98,23 @@
                         <!-- Action Button -->
                         <div class="form-group">
                             <div style="text-align: right;padding-right: 15px;">
-                                <button type="button" class="btn btn-default btn-verb" onclick="goHome('verbForm', '{{ url('/home')}}')">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="goHome('verbForm', '{{ url('/home')}}')">
                                     <i class="fa fa-btn fa-home"></i>Home
                                 </button>
                                 &nbsp;
-                                <button type="button" class="btn btn-default btn-verb" onclick="showHint();">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="showHint();">
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
                                 &nbsp;
-                                <button type="button" class="btn btn-default btn-verb" onclick="checkAnswers();">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="checkAnswers();">
                                     <i class="fa fa-btn fa-check"></i>Check answers
                                 </button>
                                 &nbsp;
-                                <button type="button" class="btn btn-default btn-verb" onclick="nextVerb();">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="getTenseDetails();">
+                                    <i class="fa fa-btn fa-check"></i>Tense details
+                                </button>
+                                &nbsp;
+                                <button type="button" class="btn btn-default btn-vocal" onclick="nextVerb();">
                                     <i class="fa fa-btn fa-plus"></i>Next verb
                                 </button>
                             </div>

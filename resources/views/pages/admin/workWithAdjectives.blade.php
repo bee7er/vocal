@@ -8,7 +8,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="index-title">
-                        Work with Verbs
+                        Work with Adjectives
                     </div><div class="index-action">
                         <button type="submit" class="btn btn-default" onclick="addItem();">
                             <i class="fa fa-btn fa-plus"></i>Add
@@ -23,7 +23,7 @@
                     <form id="formId" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
                         <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
-                        <input type="hidden" name="verbId" id="verbId" value="" />
+                        <input type="hidden" name="adjectiveId" id="adjectiveId" value="" />
 
 
                         <div class="">
@@ -41,7 +41,7 @@
                             <table class="vocal-table">
                                 <tr>
                                     <th class="vocal-table-header">
-                                        Verb
+                                        Adjective
                                     </th>
                                     <th class="vocal-table-header">
                                         English
@@ -53,23 +53,23 @@
                                         Action
                                     </th>
                                 </tr>
-                                @if(isset($verbs) && count($verbs)>0)
-                                    @foreach($verbs as $verbEntry)
+                                @if(isset($adjectives) && count($adjectives)>0)
+                                    @foreach($adjectives as $adjectiveEntry)
                                         <tr>
                                             <td class="vocal-table-entry">
-                                                {{$verbEntry->infinitive}}
+                                                {{$adjectiveEntry->adjective}}
                                             </td>
                                             <td class="vocal-table-entry">
-                                                {{$verbEntry->english}}
+                                                {{$adjectiveEntry->english}}
                                             </td>
                                             <td class="vocal-table-entry">
-                                                {{$verbEntry->lang}}
+                                                {{$adjectiveEntry->lang}}
                                             </td>
                                             <td class="vocal-table-entry">
-                                                <button type="submit" class="btn btn-default" onclick="editItem({{$verbEntry->id}});">
+                                                <button type="submit" class="btn btn-default" onclick="editItem({{$adjectiveEntry->id}});">
                                                     <i class="fa fa-btn fa-pencil"></i>Edit
                                                 </button>
-                                                <button type="button" class="btn btn-default" onclick="deleteItem({{$verbEntry->id}});">
+                                                <button type="button" class="btn btn-default" onclick="deleteItem({{$adjectiveEntry->id}});">
                                                     <i class="fa fa-btn fa-exclamation"></i>Delete
                                                 </button>
                                             </td>
@@ -78,7 +78,7 @@
                                 @else
                                     <tr>
                                         <td class="vocal-table-entry" colspan="99">
-                                            No verbs met the search criteria
+                                            No adjectives met the search criteria
                                         </td>
                                     </tr>
                                 @endif
@@ -104,20 +104,21 @@
 @section('page-scripts')
     <script type="text/javascript">
         function addItem() {
-            $('#verbId').val(null);
-            $('#formId').attr("action", "{{ url('/addVerb') }}").submit();
+            $('#adjectiveId').val(null);
+            $('#formId').attr("action", "{{ url('/addAdjective') }}").submit();
         }
 
         function editItem(id) {
-            $('#verbId').val(id);
-            $('#formId').attr("action", "{{ url('/editVerb') }}").submit();
+            $('#adjectiveId').val(id);
+            $('#formId').attr("action", "{{ url('/editAdjective') }}").submit();
         }
 
         function deleteItem(id) {
             if (confirm('Are you sure you want to delete this entry?')) {
-                $('#verbId').val(id);
-                $('#formId').attr("action", "{{ url('/deleteVerb') }}").submit();
+                $('#adjectiveId').val(id);
+                $('#formId').attr("action", "{{ url('/deleteAdjective') }}").submit();
             }
+            return false;
         }
 
         function searchData() {
@@ -132,13 +133,13 @@
             let lang = $('#languageCode').val();
 
             $('#formId').attr("method", 'GET');
-            $('#formId').attr("action", "{{ url('/workWithVerbs') }}/" + lang + "/" + pos + "/" + fil).submit();
+            $('#formId').attr("action", "{{ url('/workWithAdjectives') }}/" + lang + "/" + pos + "/" + fil).submit();
         }
 
         function clearSearch() {
             $('#position').val('');
             $('#filter').val('');
-            $('#formId').attr("action", "{{ url('/workWithVerbs') }}").submit();
+            $('#formId').attr("action", "{{ url('/workWithAdjectives') }}").submit();
         }
 
         $(document).ready( function()

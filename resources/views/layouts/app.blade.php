@@ -56,11 +56,50 @@
 
 @yield('content')
 
+<div class="modal" id="popup-modal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <center>
+                            <h2 style="color: rgba(96,96,96,0.68)">
+                                <i class=""></i>
+                                <embed id="embedId" src="" width="500" height="400"
+                                       type="application/pdf" allowfullscreen allow="fullscreen"></embed>
+                            </h2>
+                            <hr>
+
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 @yield('page-scripts')
 @yield('global-scripts')
+<script>
+    function getTenseDetails() {
+        let url = '{{url('/getInfo')}}';
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function (response) {
+                let data = response.data;
+                if (data != '') {
+                    $('#embedId').attr('src', data);
+                    $('#popup-modal').appendTo("body").modal('show');
+                }
+
+
+            }
+        });
+    };
+</script>
 </body>
 </html>

@@ -70,45 +70,36 @@ body {
     font-weight: bold;
 }
 
-.verb-table {
+.vocal-table {
     width: 100%;
     border: 1px solid;
 }
 
-.adverb-table, .adjective-table {
-    width: 100%;
-    border: 1px solid;
-    text-align: center;
-}
-
-.verb-table th, .verb-table td,
-    .adverb-table th, .adverb-table td,
+.vocal-table th, .vocal-table td,
+    .advocal-table th, .advocal-table td,
     .adjective-table th, .adjective-table td {
     border: 1px solid;
     padding: 5px;
 }
 
-.verb-table tr, .adverb-table tr, .adjective-table tr {
+.vocal-table tr {
 }
 
-.verb-table-header, .adverb-table-header, .adjective-table-header {
+.vocal-table-header {
     text-align: center;
     background-color: #c4c4c4;
 }
 
-.verb-table-entry, .adverb-table-entry, .adjective-table-entry {
-    font-size: 1.4em
-}
-
-.verb-table-verb, .adverb-table-verb {
+.vocal-table-entry {
+    font-size: 1.4em;
     width: 25%;
 }
 
-.verb-table-tense {
+.vocal-table-tense {
     width: 25%;
 }
 
-.verb-table-person {
+.vocal-table-person {
     width: 50%;
 }
 
@@ -149,7 +140,11 @@ body {
     line-height: 5px;
 }
 
-.btn-verb, .btn-adverb, .btn-adjective {
+.center-entry {
+    text-align: center;
+}
+
+.btn-vocal {
     background-color: #f3f3f3;
 }
 
@@ -172,5 +167,9 @@ body {
 }
 
 .input-position {
-    margin-left: 20px;
+    margin: 0px 20px 10px 0px;
+}
+
+.input-filter {
+    margin: 0px 20px 10px 20px;
 }

@@ -42,7 +42,7 @@ class AdminVerbController extends Controller
 	 * @param Request $request
 	 * @return Response
 	 */
-	public function index(Request $request, $position=null)
+	public function index(Request $request, $position=null, $filter=null)
 	{
 		$loggedIn = false;
 		if ($this->auth->check()) {
@@ -55,9 +55,25 @@ class AdminVerbController extends Controller
 		$languages = Language::getLanguages();
 		$currentLanguage = Language::getCurrentLanguage($request);
 
-		$verbs = $this->getVerbs($request, $languageCode, $position);
+		$verbs = $this->getVerbs($request, $languageCode, trim($position), trim($filter));
 
-		return view('pages.admin.workWithVerbs', compact('position', 'currentLanguage', 'languageCode', 'languages', 'verbs', 'loggedIn', 'errors', 'msgs'));
+		return view('pages.admin.workWithVerbs', compact('position', 'filter', 'currentLanguage',
+			'languageCode', 'languages', 'verbs', 'loggedIn', 'errors', 'msgs'));
+	}
+
+	/**
+	 * Set up the request for a common call to the index page
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function backToWork(Request $request, $languageCode, $position=null, $filter=null)
+	{
+		$request->request->add(['languageCode' => $languageCode]);
+
+//		dd($request->all());
+
+		return $this->index($request, $position, $filter);
 	}
 
 	/**
@@ -138,13 +154,15 @@ class AdminVerbController extends Controller
 	 */
 	public function deleteVerb(Request $request)
 	{
-		$verb = $pos = null;
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$verb = $pos = $fil = null;
 		try {
 			$verbId = $request->get('verbId');
 
 			$verb = $this->getVerb($request, $verbId);
 			// We will position back to where this entry was
 			$pos = $verb->infinitive;
+			$fil = '';
 
 			$verb->delete();
 
@@ -152,7 +170,7 @@ class AdminVerbController extends Controller
 			Log::notice("Error deleting verb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
 		}
 
-		return Redirect::to("/workWithVerbs/$pos");
+		return Redirect::to("/workWithVerbs/$languageCode/$pos/$fil");
 	}
 
 	/**
@@ -177,7 +195,7 @@ class AdminVerbController extends Controller
 		$languages = Language::getLanguages();
 		$currentLanguage = Language::getCurrentLanguage($request);
 
-		$verb = $pos = null;
+		$verb = $pos = $fil = null;
 		try {
 			$verbId = $request->get('verbId');
 
@@ -202,6 +220,7 @@ class AdminVerbController extends Controller
 				Verb::create($verbAry);
 
 				$pos = $verbAry["infinitive"];
+				$fil = '';
 			}
 
 		} catch(Exception $e) {
@@ -215,7 +234,7 @@ class AdminVerbController extends Controller
 				'languageCode', 'languages', 'verb', 'loggedIn', 'errors', 'msgs'));
 		}
 
-		return Redirect::to("/workWithVerbs/$pos");
+		return Redirect::to("/workWithVerbs/$languageCode/$pos/$fil");
 	}
 
 	/**
@@ -244,7 +263,7 @@ class AdminVerbController extends Controller
 	/**
 	 * Retrieve all verbs from the db table
 	 */
-	private function getVerbs($request, $languageCode, $position=null)
+	private function getVerbs($request, $languageCode, $position=null, $filter=null)
 	{
 		$builder = Verb::select(
 			array(
@@ -258,6 +277,10 @@ class AdminVerbController extends Controller
 
 		if (null != $position) {
 			$builder->where("verbs.infinitive", ">=", $position);
+		}
+
+		if (null != $filter) {
+			$builder->where("verbs.infinitive", "LIKE", ("%$filter%"));
 		}
 
 		$verbs = $builder

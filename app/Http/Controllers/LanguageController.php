@@ -46,4 +46,15 @@ class LanguageController extends Controller
 		return $lang;
 	}
 
+	/**
+	 * testing popup
+	 */
+	public function getInfo(Request $request)
+	{
+		return response()->json([
+			'success' => 1,
+			'data' => '/pdfs/past_tense_french.pdf',
+		]);
+	}
+
 }

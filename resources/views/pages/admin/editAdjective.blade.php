@@ -14,10 +14,10 @@
                     @include('common.msgs')
                     @include('common.errors')
 
-                    <form id="editVerbForm" action="" method="POST" class="form-horizontal">
+                    <form id="editAdjectiveForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
                         <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
-                        <input type="hidden" name="verbId" id="verbId" value="{{(isset($verb) ? $verb->id: null)}}" />
+                        <input type="hidden" name="adjectiveId" id="adjectiveId" value="{{(isset($adjective) ? $adjective->id: null)}}" />
                         <input type="hidden" name="title" id="title" value="{{ $title }}" />
                         <input type="hidden" name="button" id="button" value="{{ $button  }}" />
 
@@ -25,29 +25,20 @@
                             <table class="vocal-table">
                                 <tr>
                                     <td class="vocal-table-entry">
-                                        Verb infinitive
+                                        Adjective
                                     </td>
                                     <td class="vocal-table-entry">
-                                        <input type="text" name="infinitive" id="infinitive"
-                                               class="response-text" value="{{(isset($verb) ? $verb->infinitive: '')}}" />
+                                        <input type="text" name="adjective" id="adjective"
+                                               class="response-text" value="{{(isset($adjective) ? $adjective->adjective: '')}}" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="vocal-table-entry">
-                                        Verb translated to English
+                                        Adjective translated to English
                                     </td>
                                     <td class="vocal-table-entry">
                                         <input type="text" name="english" id="english"
-                                               class="response-text" value="{{(isset($verb) ? $verb->english: '')}}" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="vocal-table-entry">
-                                        Is the verb reflexive?
-                                    </td>
-                                    <td class="vocal-table-entry">
-                                        <input type="checkbox" name="reflexive" id="reflexive"
-                                               class="response-text" value="1" {{(isset($verb) && $verb->reflexive=='1' ? 'checked': '')}} />
+                                               class="response-text" value="{{(isset($adjective) ? $adjective->english: '')}}" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -56,7 +47,7 @@
                                     </td>
                                     <td class="vocal-table-entry">
                                         <input type="text" name="language" id="language" readonly
-                                               class="response-text" value="{{(isset($verb) ? $verb->lang: '')}}" />
+                                               class="response-text" value="{{(isset($adjective) ? $adjective->lang: '')}}" />
                                     </td>
                                 </tr>
                             </table>
@@ -68,7 +59,7 @@
                                 <button type="button" class="btn btn-default btn-vocal" onclick="cancelEdit()">
                                     <i class="fa fa-btn fa-home"></i>Cancel
                                 </button>
-                                <button type="button" class="btn btn-default btn-vocal" onclick="updateVerb('verbForm', '{{ url('/updateVerb')}}')">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="updateAdjective('adjectiveForm', '{{ url('/updateAdjective')}}')">
                                     <i class="fa fa-btn fa-plus"></i>{{ $button }}
                                 </button>
                             </div>
@@ -84,27 +75,27 @@
 @section('page-scripts')
     <script type="text/javascript">
         function cancelEdit() {
-            $('#editVerbForm').attr("action", "{{ url('/workWithVerbs')}}").submit();
+            $('#editAdjectiveForm').attr("action", "{{ url('/workWithAdjectives')}}").submit();
         }
 
-        function updateVerb() {
+        function updateAdjective() {
             if (validVerb()) {
-                $('#editVerbForm').attr("action", "{{ url('/updateVerb')}}").submit();
+                $('#editAdjectiveForm').attr("action", "{{ url('/updateAdjective')}}").submit();
             }
         }
 
         function validVerb() {
             let errs = [];
-            let inf = $('#infinitive').val();
+            let adv = $('#adjective').val();
 
             // NB Validate in reverse ordeer so that we position the cursor to the first invalid input field
             if ('' == $('#english').val()) {
                 errs[errs.length] = 'English translation is required';
                 $('#english').focus();
             }
-            if ('' == inf) {
-                errs[errs.length] = 'Verb infinitive is required';
-                $('#infinitive').focus();
+            if ('' == adv) {
+                errs[errs.length] = 'Adjective is required';
+                $('#adjective').focus();
             }
 
             if (0 < errs.length) {

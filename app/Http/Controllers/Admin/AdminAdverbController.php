@@ -1,0 +1,289 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Language;
+use App\Adverb;
+use Exception;
+use Illuminate\Auth\Guard;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+
+/**
+ * Class AdminAdverbController
+ * @package App\Http\Controllers
+ */
+class AdminAdverbController extends Controller
+{
+	/**
+	 * The Guard implementation.
+	 *
+	 * @var Guard
+	 */
+	protected $auth;
+
+	/**
+	 * Create a new filter instance.
+	 *
+	 * @param  Guard  $auth
+	 * @return void
+	 */
+	public function __construct(Guard $auth)
+	{
+		$this->auth = $auth;
+	}
+
+	/**
+	 * Show the application adverb page to the user.
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function index(Request $request, $position=null, $filter=null)
+	{
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$errors = [];
+		$msgs = [];
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languages = Language::getLanguages();
+		$currentLanguage = Language::getCurrentLanguage($request);
+
+		$adverbs = $this->getAdverbs($request, $languageCode, trim($position), trim($filter));
+
+		return view('pages.admin.workWithAdverbs', compact('position', 'filter', 'currentLanguage',
+			'languageCode', 'languages', 'adverbs', 'loggedIn', 'errors', 'msgs'));
+	}
+
+	/**
+	 * Set up the request for a common call to the index page
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function backToWork(Request $request, $languageCode, $position=null, $filter=null)
+	{
+		$request->request->add(['languageCode' => $languageCode]);
+
+//		dd($request->all());
+
+		return $this->index($request, $position, $filter);
+	}
+
+	/**
+	 * Add an adverb.
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function addAdverb(Request $request)
+	{
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$errors = [];
+		$msgs = [];
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languages = Language::getLanguages();
+		$currentLanguage = Language::getCurrentLanguage($request);
+
+		$adverb = null;
+		try {
+			$adverb = $this->getAdverb($request);
+			$adverb->lang = $languageCode;		// Default to current language
+
+		} catch(Exception $e) {
+			Log::notice("Error getting adverb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
+			$errors[] = "Error finding adverb with id {$request->get('adverbId')}";
+		}
+
+		$title = "Add Adverb";
+		$button = "Add";
+
+		return view('pages.admin.editAdverb', compact('title', 'button', 'currentLanguage',
+			'languageCode', 'languages', 'adverb', 'loggedIn', 'errors', 'msgs'));
+	}
+
+	/**
+	 * Edit an adverb.
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function editAdverb(Request $request)
+	{
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$errors = [];
+		$msgs = [];
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languages = Language::getLanguages();
+		$currentLanguage = Language::getCurrentLanguage($request);
+
+		$adverb = null;
+		try {
+			$adverb = $this->getAdverb($request, $request->get('adverbId'));
+		} catch(Exception $e) {
+			Log::notice("Error getting adverb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
+			$errors[] = "Error finding adverb with id {$request->get('adverbId')}";
+		}
+
+		$title = "Edit Adverb";
+		$button = "Update";
+
+		return view('pages.admin.editAdverb', compact('title', 'button', 'currentLanguage',
+			'languageCode', 'languages', 'adverb', 'loggedIn', 'errors', 'msgs'));
+	}
+
+	/**
+	 * Deletes an adverb.
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function deleteAdverb(Request $request)
+	{
+		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$adverb = $pos = $fil = null;
+		try {
+			$adverbId = $request->get('adverbId');
+
+			$adverb = $this->getAdverb($request, $adverbId);
+			// We will position back to where this entry was
+			$pos = $adverb->adverb;
+			$fil = '';
+
+			$adverb->delete();
+
+		} catch(Exception $e) {
+			Log::notice("Error deleting adverb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
+		}
+
+		return Redirect::to("/workWithAdverbs/$languageCode/$pos/$fil");
+	}
+
+	/**
+	 * Updates an adverb.
+	 *
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function updateAdverb(Request $request)
+	{
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$errors = [];
+		$msgs = [];
+		$languageCode = $request->get('languageCode');
+		if (null == $languageCode) {
+			throw new Exception('Language code not found');
+		}
+		$languages = Language::getLanguages();
+		$currentLanguage = Language::getCurrentLanguage($request);
+
+		$adverb = $pos = $fil = null;
+		try {
+			$adverbId = $request->get('adverbId');
+
+			if (isset($adverbId) && is_numeric($adverbId) && $adverbId > 0) {
+				$adverb = $this->getAdverb($request, $adverbId);
+				$adverb->adverb = $request->get('adverb');
+				$adverb->english = $request->get('english');
+				$adverb->lang = $request->get('language');
+				$adverb->save();
+
+				$pos = $adverb->adverb;
+
+			} else {
+				$adverbAry = [
+					"adverb" => $request->get('adverb'),
+					"english" => $request->get('english'),
+					"lang" => $request->get('language'),
+				];
+				Adverb::create($adverbAry);
+
+				$pos = $adverbAry["adverb"];
+				$fil = '';
+			}
+
+		} catch(Exception $e) {
+			Log::notice("Error getting adverb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
+			$errors[] = "Error finding adverb with id {$request->get('adverbId')}";
+
+			$title = $request->get('title');
+			$button = $request->get('button');
+
+			return view('pages.admin.editAdverb', compact('title', 'button', 'currentLanguage',
+				'languageCode', 'languages', 'adverb', 'loggedIn', 'errors', 'msgs'));
+		}
+
+		return Redirect::to("/workWithAdverbs/$languageCode/$pos/$fil");
+	}
+
+	/**
+	 * Retrieve an adverb from the db table
+	 */
+	private function getAdverb(Request $request, $id=null)
+	{
+		if (null == $id) {
+			// Add mode
+			return new Adverb();
+		}
+
+		// Change mode
+		return Adverb::findOrFail(
+			$id,
+			array(
+				'adverbs.id',
+				'adverbs.adverb',
+				'adverbs.english',
+				'adverbs.lang',
+			)
+		);
+	}
+
+	/**
+	 * Retrieve all adverbs from the db table
+	 */
+	private function getAdverbs($request, $languageCode, $position=null, $filter=null)
+	{
+		$builder = Adverb::select(
+			array(
+				'adverbs.id',
+				'adverbs.adverb',
+				'adverbs.english',
+				'adverbs.lang',
+			)
+		);
+
+		if (null != $position) {
+			$builder->where("adverbs.adverb", ">=", $position);
+		}
+
+		if (null != $filter) {
+			$builder->where("adverbs.adverb", "LIKE", ("%$filter%"));
+		}
+
+		$adverbs = $builder
+			->where("adverbs.lang", "=", $languageCode)
+			->orderBy('adverbs.adverb')
+			->get();
+
+		return $adverbs;
+	}
+
+}

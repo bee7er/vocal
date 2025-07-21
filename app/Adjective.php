@@ -18,6 +18,6 @@ class Adjective extends Model
      *
      * @var array
      */
-    protected $fillable = ['adjective', 'english'];
+    protected $fillable = ['adjective', 'english', 'lang'];
 
 }
