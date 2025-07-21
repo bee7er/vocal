@@ -17,7 +17,7 @@ class CreateTenseDetailsTable extends Migration
             $table->increments('id');
             $table->string('tense_id');
             $table->string('language_id');
-            $table->string('details');
+            $table->string('pdf');
             $table->timestamps();
         });
     }

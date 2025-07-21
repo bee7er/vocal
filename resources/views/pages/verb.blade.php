@@ -110,7 +110,7 @@
                                     <i class="fa fa-btn fa-check"></i>Check answers
                                 </button>
                                 &nbsp;
-                                <button type="button" class="btn btn-default btn-vocal" onclick="getTenseDetails();">
+                                <button type="button" class="btn btn-default btn-vocal" onclick="getTenseDetails('{{$tenseDetail['pdf']}}');">
                                     <i class="fa fa-btn fa-check"></i>Tense details
                                 </button>
                                 &nbsp;
@@ -142,6 +142,31 @@
             $('#verbForm').attr("action", "{{ url('nextVerb')}}");
             $('#verbForm').submit();
         }
+
+        function getTenseDetails(pdf) {
+            $('#embedId').attr('src', pdf);
+            $('#popup-modal').appendTo("body").modal('show');
+        }
+
+        /**
+         * It wasn't necessary to run this function, as the pdf url was available locally
+         * but this did in fact work
+         * @param pdf
+         */
+        function experimental(pdf) {
+            $.ajax({
+                url: 'getTenseDetails',
+                dataType: 'json',
+                data: {'pdf': pdf},
+                success: function (response) {
+                    let data = response.data;
+                    if (data != '') {
+                        $('#embedId').attr('src', data);
+                        $('#popup-modal').appendTo("body").modal('show');
+                    }
+                }
+            });
+        };
 
         $(document).ready( function()
         {

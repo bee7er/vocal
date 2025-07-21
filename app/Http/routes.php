@@ -58,8 +58,8 @@ Route::post('/updateAdjective', 'Admin\AdminAdjectiveController@updateAdjective'
 Route::post('/deleteAdjective', 'Admin\AdminAdjectiveController@deleteAdjective');
 /* Change the currently selected language */
 Route::post('/changeLanguage', 'LanguageController@changeLanguage');
-
-Route::get('/getInfo', 'LanguageController@getInfo');
+/* Return the requested pdf to show tense details */
+Route::get('/getTenseDetails', 'TenseDetailController@getTenseDetails');
 
 /**
  * Import data in CSV format

@@ -83,23 +83,5 @@
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 @yield('page-scripts')
 @yield('global-scripts')
-<script>
-    function getTenseDetails() {
-        let url = '{{url('/getInfo')}}';
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            success: function (response) {
-                let data = response.data;
-                if (data != '') {
-                    $('#embedId').attr('src', data);
-                    $('#popup-modal').appendTo("body").modal('show');
-                }
-
-
-            }
-        });
-    };
-</script>
 </body>
 </html>

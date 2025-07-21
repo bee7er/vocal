@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Language;
 use App\Person;
 use App\Tense;
+use App\TenseDetail;
 use App\Verb;
 use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
@@ -50,8 +51,9 @@ class VerbController extends Controller
 		$verb = $this->getVerb($request);
 		$tense = $this->getTense($request);
 		$person = $this->getPerson($request);
+		$tenseDetail = $this->getTenseDetail($request, $tense);
 
-		return $this->returnView($request, $verb, $tense, $person, $includeFormFields);
+		return $this->returnView($request, $verb, $tense, $person, $tenseDetail, $includeFormFields);
 	}
 
 	public function test()
@@ -85,6 +87,7 @@ class VerbController extends Controller
 		$verb = $this->getVerb($request, $request->get("verbId"));
 		$tense = $this->getTense($request, $request->get("tenseId"));
 		$person = $this->getPerson($request, $request->get("personId"));
+		$tenseDetail = $this->getTenseDetail($request, $tense);
 
 		$errors = $msgs = [];
 		if ("" == $englishInfinitive) {
@@ -111,7 +114,7 @@ class VerbController extends Controller
 			$msgs[] = "Your translation was correct";
 		}
 
-		return $this->returnView($request, $verb, $tense, $person, true, $errors, $msgs);
+		return $this->returnView($request, $verb, $tense, $person, $tenseDetail, true, $errors, $msgs);
 	}
 
 	/**
@@ -160,7 +163,7 @@ class VerbController extends Controller
 	 * @param Request $request
 	 * @return Response
 	 */
-	private function returnView(Request $request, $verb, $tense, $person, $includeFormFields, $errors=[], $msgs=[])
+	private function returnView(Request $request, $verb, $tense, $person, $tenseDetail, $includeFormFields, $errors=[], $msgs=[])
 	{
 		$loggedIn = false;
 		if ($this->auth->check()) {
@@ -184,7 +187,7 @@ class VerbController extends Controller
 
 		//dd($speak);
 
-		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person',
+		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person', 'tenseDetail',
 			'englishInfinitive', 'englishConjugation', 'foreignConjugation', 'speak', 'loggedIn', 'errors', 'msgs'));
 	}
 
@@ -239,6 +242,29 @@ class VerbController extends Controller
 
         // Returning just the data in an array
         return (isset($tense[0]) ? $tense->toArray()[0]: null);
+	}
+
+	/**
+	 * Retrieve a tense detail from the db table
+	 */
+	private function getTenseDetail($request, $tense)
+	{
+		$language = Language::getCurrentLanguage($request);
+
+		$builder = TenseDetail::select(
+			array(
+				'tense_details.id',
+				'tense_details.tense_id',
+				'tense_details.language_id',
+				'tense_details.pdf',
+			)
+		);
+		$tenseDetail = $builder
+			->where("tense_details.tense_id", "=", $tense['id'])
+			->where("tense_details.language_id", "=", $language->id)->get();
+
+        // Returning just the data in an array
+        return (isset($tenseDetail[0]) ? $tenseDetail->toArray()[0]: null);
 	}
 
 	/**
