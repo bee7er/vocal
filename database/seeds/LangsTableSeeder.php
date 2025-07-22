@@ -21,6 +21,12 @@ class LangsTableSeeder extends Seeder {
         $lang->code = 'it';
         $lang->flag = '/images/italian.png';
         $lang->save();
+
+        $lang = new Language();
+        $lang->language = 'spanish';
+        $lang->code = 'es';
+        $lang->flag = '/images/spanish.png';
+        $lang->save();
     }
 
 }

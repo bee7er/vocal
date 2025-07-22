@@ -105,6 +105,54 @@ class PersonsTableSeeder extends Seeder {
         $person->english = '3rd person plural (female)';
         $person->lang = 'it';
         $person->save();
+
+        $person = new Person();
+        $person->person = '1.ª persona del singular';
+        $person->english = '1st person singular';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '2.ª persona del singular';
+        $person->english = '2nd person singular';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '3.ª persona del singular (masculino)';
+        $person->english = '3rd person singular (male)';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '3.ª persona del singular (femenino)';
+        $person->english = '3rd person singular (female)';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '1.ª persona del plural';
+        $person->english = '1st person plural';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '2.ª persona del plural';
+        $person->english = '2nd person plural';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '3.ª persona del plural (masculino o ambos)';
+        $person->english = '3rd person plural (male or both)';
+        $person->lang = 'es';
+        $person->save();
+
+        $person = new Person();
+        $person->person = '3.ª persona del plural (femenino)';
+        $person->english = '3rd person plural (female)';
+        $person->lang = 'es';
+        $person->save();
     }
 
 }

@@ -70,6 +70,36 @@ class TensesTableSeeder extends Seeder {
         $tense->lang = 'it';
         $tense->save();
 
+        $tense = new Tense();
+        $tense->tense = 'presente';
+        $tense->english = 'present';
+        $tense->lang = 'es';
+        $tense->save();
+
+        $tense = new Tense();
+        $tense->tense = 'pasada';
+        $tense->english = 'past';
+        $tense->lang = 'es';
+        $tense->save();
+
+        $tense = new Tense();
+        $tense->tense = 'imperfecta';
+        $tense->english = 'imperfect';
+        $tense->lang = 'es';
+        $tense->save();
+
+        $tense = new Tense();
+        $tense->tense = 'futura';
+        $tense->english = 'future';
+        $tense->lang = 'es';
+        $tense->save();
+
+        $tense = new Tense();
+        $tense->tense = 'pluscuamperfecto';
+        $tense->english = 'pluperfect';
+        $tense->lang = 'es';
+        $tense->save();
+
     }
 
 }
