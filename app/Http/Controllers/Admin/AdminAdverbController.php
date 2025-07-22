@@ -51,29 +51,14 @@ class AdminAdverbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adverbs = $this->getAdverbs($request, $languageCode, trim($position), trim($filter));
 
 		return view('pages.admin.workWithAdverbs', compact('position', 'filter', 'currentLanguage',
 			'languageCode', 'languages', 'adverbs', 'loggedIn', 'errors', 'msgs'));
-	}
-
-	/**
-	 * Set up the request for a common call to the index page
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
-	public function backToWork(Request $request, $languageCode, $position=null, $filter=null)
-	{
-		$request->request->add(['languageCode' => $languageCode]);
-
-//		dd($request->all());
-
-		return $this->index($request, $position, $filter);
 	}
 
 	/**
@@ -91,9 +76,9 @@ class AdminAdverbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adverb = null;
 		try {
@@ -127,9 +112,9 @@ class AdminAdverbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adverb = null;
 		try {
@@ -154,7 +139,7 @@ class AdminAdverbController extends Controller
 	 */
 	public function deleteAdverb(Request $request)
 	{
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$adverb = $pos = $fil = null;
 		try {
 			$adverbId = $request->get('adverbId');
@@ -170,7 +155,7 @@ class AdminAdverbController extends Controller
 			Log::notice("Error deleting adverb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
 		}
 
-		return Redirect::to("/workWithAdverbs/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithAdverbs/$pos/$fil");
 	}
 
 	/**
@@ -188,12 +173,9 @@ class AdminAdverbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode');
-		if (null == $languageCode) {
-			throw new Exception('Language code not found');
-		}
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adverb = $pos = $fil = null;
 		try {
@@ -231,7 +213,7 @@ class AdminAdverbController extends Controller
 				'languageCode', 'languages', 'adverb', 'loggedIn', 'errors', 'msgs'));
 		}
 
-		return Redirect::to("/workWithAdverbs/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithAdverbs/$pos/$fil");
 	}
 
 	/**

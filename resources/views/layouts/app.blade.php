@@ -39,7 +39,6 @@
 
             <!-- Branding Image -->
             <form id="headerForm" action="" method="POST" class="form-horizontal">
-                <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
                 <a class="navbar-brand" onclick="goHome('headerForm', '{{ url("/home") }}');">
                     Home
                 </a>
@@ -83,5 +82,43 @@
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 @yield('page-scripts')
 @yield('global-scripts')
+
+<script type="text/javascript">
+    // Delete the cookie for testing purposes
+    //    document.cookie = "cookieWarningAccepted=; Max-Age=0; path=/;";
+    //    document.cookie = "cookieLoadAll=; Max-Age=0; path=/;";
+    //    document.cookie = "loadAll=; Max-Age=0; path=/;";
+    //console.log(document.cookie);
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    // Function to check if a cookie exists
+    function checkCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length); // Trim whitespace
+            if (c.indexOf(nameEQ) == 0) return true; // Cookie found
+        }
+        return false; // Cookie not found
+    }
+
+    /**
+     * Change the current language
+     */
+    function changeLanguage(languageCode)
+    {
+        // Set a cookie to remember that the user wishes a new language
+        setCookie("languageCode", languageCode, 7); // Cookie expires in 7 days
+        document.location = ("{{config('app.base_url')}}" + "/");
+    }
+
+</script>
 </body>
 </html>

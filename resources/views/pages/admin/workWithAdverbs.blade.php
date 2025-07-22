@@ -22,7 +22,6 @@
 
                     <form id="formId" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
-                        <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
                         <input type="hidden" name="adverbId" id="adverbId" value="" />
 
 
@@ -133,7 +132,7 @@
             let lang = $('#languageCode').val();
 
             $('#formId').attr("method", 'GET');
-            $('#formId').attr("action", "{{ url('/workWithAdverbs') }}/" + lang + "/" + pos + "/" + fil).submit();
+            $('#formId').attr("action", "{{ url('/workWithAdverbs') }}/" + pos + "/" + fil).submit();
         }
 
         function clearSearch() {

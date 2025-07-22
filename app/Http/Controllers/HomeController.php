@@ -45,7 +45,7 @@ class HomeController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
 
 		return view('pages.home', compact('languageCode', 'languages', 'loggedIn', 'errors', 'msgs'));

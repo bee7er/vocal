@@ -16,7 +16,6 @@
 
                     <form id="verbForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
-                        <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
 
                         <div class="form-group">
                             <table class="vocal-table">

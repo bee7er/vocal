@@ -170,9 +170,9 @@ class VerbController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$englishInfinitive = '';
 		$englishConjugation = '';
@@ -209,7 +209,7 @@ class VerbController extends Controller
 			$verb = $builder->where("verbs.id", "=", $id)->get();
 		} else {
 			$verb = $builder
-				->where("verbs.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("verbs.lang", "=", self::getCurrentLanguageCode())
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -235,7 +235,7 @@ class VerbController extends Controller
 			$tense = $builder->where("tenses.id", "=", $id)->get();
 		} else {
 			$tense = $builder
-				->where("tenses.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("tenses.lang", "=", self::getCurrentLanguageCode())
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}
@@ -249,7 +249,7 @@ class VerbController extends Controller
 	 */
 	private function getTenseDetail($request, $tense)
 	{
-		$language = Language::getCurrentLanguage($request);
+		$language = self::getCurrentLanguage($request);
 
 		$builder = TenseDetail::select(
 			array(
@@ -284,7 +284,7 @@ class VerbController extends Controller
 			$person = $builder->where("persons.id", "=", $id)->get();
 		} else {
 			$person = $builder
-				->where("persons.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("persons.lang", "=", self::getCurrentLanguageCode())
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

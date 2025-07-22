@@ -51,29 +51,14 @@ class AdminVerbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$verbs = $this->getVerbs($request, $languageCode, trim($position), trim($filter));
 
 		return view('pages.admin.workWithVerbs', compact('position', 'filter', 'currentLanguage',
 			'languageCode', 'languages', 'verbs', 'loggedIn', 'errors', 'msgs'));
-	}
-
-	/**
-	 * Set up the request for a common call to the index page
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
-	public function backToWork(Request $request, $languageCode, $position=null, $filter=null)
-	{
-		$request->request->add(['languageCode' => $languageCode]);
-
-//		dd($request->all());
-
-		return $this->index($request, $position, $filter);
 	}
 
 	/**
@@ -91,9 +76,9 @@ class AdminVerbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$verb = null;
 		try {
@@ -127,9 +112,9 @@ class AdminVerbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$verb = null;
 		try {
@@ -154,7 +139,7 @@ class AdminVerbController extends Controller
 	 */
 	public function deleteVerb(Request $request)
 	{
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$verb = $pos = $fil = null;
 		try {
 			$verbId = $request->get('verbId');
@@ -170,7 +155,7 @@ class AdminVerbController extends Controller
 			Log::notice("Error deleting verb: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
 		}
 
-		return Redirect::to("/workWithVerbs/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithVerbs/$pos/$fil");
 	}
 
 	/**
@@ -188,12 +173,9 @@ class AdminVerbController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode');
-		if (null == $languageCode) {
-			throw new Exception('Language code not found');
-		}
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$verb = $pos = $fil = null;
 		try {
@@ -234,7 +216,7 @@ class AdminVerbController extends Controller
 				'languageCode', 'languages', 'verb', 'loggedIn', 'errors', 'msgs'));
 		}
 
-		return Redirect::to("/workWithVerbs/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithVerbs/$pos/$fil");
 	}
 
 	/**

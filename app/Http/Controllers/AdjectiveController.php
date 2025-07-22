@@ -123,9 +123,9 @@ class AdjectiveController extends Controller
 			$loggedIn = true;
 		}
 
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$englishAdjective = '';
 		if ($includeFormFields) {
@@ -153,7 +153,7 @@ class AdjectiveController extends Controller
 			$adjective = $builder->where("adjectives.id", "=", $id)->get();
 		} else {
 			$adjective = $builder
-				->where("adjectives.lang", "=", $request->get('languageCode', Language::getDefaultLanguageCode()))
+				->where("adjectives.lang", "=", self::getCurrentLanguageCode())
 				->orderBy(DB::raw('RAND()'))
 				->limit(1)->get();
 		}

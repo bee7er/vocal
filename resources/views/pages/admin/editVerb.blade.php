@@ -16,7 +16,6 @@
 
                     <form id="editVerbForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
-                        <input type="hidden" name="languageCode" id="languageCode" value="{{$languageCode}}" />
                         <input type="hidden" name="verbId" id="verbId" value="{{(isset($verb) ? $verb->id: null)}}" />
                         <input type="hidden" name="title" id="title" value="{{ $title }}" />
                         <input type="hidden" name="button" id="button" value="{{ $button  }}" />

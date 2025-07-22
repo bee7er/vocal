@@ -6,16 +6,9 @@ function goHome(formId, url) {
     $('#' + formId).attr("method", "POST");
     $('#' + formId).submit();
 }
-/**
- * Change the current language
- */
-function changeLanguage(languageCode)
-{
-    location.replace('/?languageCode=' + languageCode);
-}
 
 /**
- * Ajax change the current language
+ * Ajax change the current language - here for example only
  */
 function ajaxChangeLanguage(languageCode)
 {

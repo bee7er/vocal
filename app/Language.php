@@ -48,12 +48,4 @@ class Language extends Model
         return $langs;
     }
 
-    /**
-     * Retrieve the currently selected language object
-     */
-    public static function getCurrentLanguage(Request $request)
-    {
-        return self::where('code', "=", $request->get('languageCode', self::getDefaultLanguageCode()))->firstOrFail();
-    }
-
 }

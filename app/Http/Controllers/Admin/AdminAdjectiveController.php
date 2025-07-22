@@ -51,29 +51,14 @@ class AdminAdjectiveController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adjectives = $this->getAdjectives($request, $languageCode, trim($position), trim($filter));
 
 		return view('pages.admin.workWithAdjectives', compact('position', 'filter', 'currentLanguage',
 			'languageCode', 'languages', 'adjectives', 'loggedIn', 'errors', 'msgs'));
-	}
-
-	/**
-	 * Set up the request for a common call to the index page
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
-	public function backToWork(Request $request, $languageCode, $position=null, $filter=null)
-	{
-		$request->request->add(['languageCode' => $languageCode]);
-
-//		dd($request->all());
-
-		return $this->index($request, $position, $filter);
 	}
 
 	/**
@@ -91,9 +76,9 @@ class AdminAdjectiveController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adjective = null;
 		try {
@@ -127,9 +112,9 @@ class AdminAdjectiveController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adjective = null;
 		try {
@@ -154,7 +139,7 @@ class AdminAdjectiveController extends Controller
 	 */
 	public function deleteAdjective(Request $request)
 	{
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$adjective = $pos = $fil = null;
 		try {
 			$adjectiveId = $request->get('adjectiveId');
@@ -170,7 +155,7 @@ class AdminAdjectiveController extends Controller
 			Log::notice("Error deleting adjective: {$e->getMessage()} at {$e->getFile()}, {$e->getLine()}");
 		}
 
-		return Redirect::to("/workWithAdjectives/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithAdjectives/$pos/$fil");
 	}
 
 	/**
@@ -188,12 +173,9 @@ class AdminAdjectiveController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode');
-		if (null == $languageCode) {
-			throw new Exception('Language code not found');
-		}
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
-		$currentLanguage = Language::getCurrentLanguage($request);
+		$currentLanguage = self::getCurrentLanguage();
 
 		$adjective = $pos = $fil = null;
 		try {
@@ -231,7 +213,7 @@ class AdminAdjectiveController extends Controller
 				'languageCode', 'languages', 'adjective', 'loggedIn', 'errors', 'msgs'));
 		}
 
-		return Redirect::to("/workWithAdjectives/$languageCode/$pos/$fil");
+		return Redirect::to("/workWithAdjectives/$pos/$fil");
 	}
 
 	/**
@@ -259,7 +241,7 @@ class AdminAdjectiveController extends Controller
 	/**
 	 * Retrieve all adjectives from the db table
 	 */
-	private function getAdjectives($request, $languageCode, $position=null, $filter=null)
+	private function getAdjectives($request, $language, $position=null, $filter=null)
 	{
 		$builder = Adjective::select(
 			array(
@@ -279,7 +261,7 @@ class AdminAdjectiveController extends Controller
 		}
 
 		$adjectives = $builder
-			->where("adjectives.lang", "=", $languageCode)
+			->where("adjectives.lang", "=", self::getCurrentLanguageCode())
 			->orderBy('adjectives.adjective')
 			->get();
 

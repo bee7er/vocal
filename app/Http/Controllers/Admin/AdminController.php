@@ -46,7 +46,7 @@ class AdminController extends Controller
 
 		$errors = [];
 		$msgs = [];
-		$languageCode = $request->get('languageCode', Language::getDefaultLanguageCode());
+		$languageCode = self::getCurrentLanguageCode();
 		$languages = Language::getLanguages();
 
 		return view('pages.admin.admin', compact('languageCode', 'languages', 'loggedIn', 'errors', 'msgs'));
