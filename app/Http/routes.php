@@ -70,11 +70,11 @@ Route::get('/getTenseDetails', 'TenseDetailController@getTenseDetails');
  *
  *      php artisan route:call --uri=/import/french_adverbs.csv/adverbs/fr/y
  *      php artisan route:call --uri=/import/italian_adverbs.csv/adverbs/it/n
- *      php artisan route:call --uri=/import/spanish_adverbs.csv/adverbs/it/n
+ *      php artisan route:call --uri=/import/spanish_adverbs.csv/adverbs/es/n
  *
  *      php artisan route:call --uri=/import/french_adjectives.csv/adjectives/fr/y
  *      php artisan route:call --uri=/import/italian_adjectives.csv/adjectives/it/n
- *      php artisan route:call --uri=/import/spanish_adjectives.csv/adjectives/it/n
+ *      php artisan route:call --uri=/import/spanish_adjectives.csv/adjectives/es/n
  *
  */
 Route::get('/import/{fileName}/{type}/{languageCode}/{clearTable}', 'ImportController@index');
