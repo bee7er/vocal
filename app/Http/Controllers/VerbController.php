@@ -97,7 +97,7 @@ class VerbController extends Controller
 			$errors[] = "English infinitive requires more than just 'to'";
 		} else {
 			if (!$this->validEnglishInfinitive($englishInfinitive, $verb)) {
-				$errors[] = "Could not find English infinitive in the corresponding verb details";
+				$errors[] = "Could not find English infinitive in the corresponding verb details. Consider editing the verb details.";
 			}
 		}
 		if ("" == $englishConjugation) {
@@ -111,7 +111,7 @@ class VerbController extends Controller
 		}
 
 		if (0 >= count($errors)) {
-			$msgs[] = "Your translation was correct";
+			$msgs[] = "Looking good. Move onto the next verb.";
 		}
 
 		return $this->returnView($request, $verb, $tense, $person, $tenseDetail, true, $errors, $msgs);

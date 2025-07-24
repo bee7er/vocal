@@ -127,6 +127,13 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tip -->
+                        <div class="form-group">
+                            <div style="text-align: left;padding-left: 15px;color: #840000;font-weight: bold;">
+                                When using the 'Get translation' popups, it is not possible to close them automatically. Just close them as you go.
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
