@@ -187,6 +187,10 @@ class VerbController extends Controller
 
 		//dd($speak);
 
+		// I wanted to allow verb.blade.php to close a popup window, but this would not work
+		// The opened window was set to 'closed: true' which prevents this interaction
+		//header("Cross-Origin-Opener-Policy: noopener-allow-popups");
+
 		return view('pages.verb', compact('currentLanguage', 'languageCode', 'languages', 'verb', 'tense', 'person', 'tenseDetail',
 			'englishInfinitive', 'englishConjugation', 'foreignConjugation', 'speak', 'loggedIn', 'errors', 'msgs'));
 	}

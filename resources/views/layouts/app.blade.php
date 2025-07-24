@@ -60,16 +60,13 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
-                        <center>
-                            <h2 style="color: rgba(96,96,96,0.68)">
-                                <i class=""></i>
-                                <embed id="embedId" src="" width="500" height="400"
-                                       type="application/pdf" allowfullscreen allow="fullscreen"></embed>
-                            </h2>
-                            <hr>
-
-                        </center>
+                    <div class="col-12" style="text-align: center;">
+                        <h2 style="color: rgba(96,96,96,0.68)">
+                            <i class=""></i>
+                            <embed id="embedId" src="" width="500" height="400"
+                                   type="application/pdf" allowfullscreen allow="fullscreen"></embed>
+                        </h2>
+                        <hr>
                     </div>
                 </div>
             </div>

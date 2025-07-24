@@ -70,7 +70,12 @@
                                         Verb conjugation in english
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="text" name="englishConjugation" value="{{$englishConjugation}}" id="englishConjugation" class="response-text" />
+                                        <input type="text" name="englishConjugation" value="{{$englishConjugation}}" id="englishConjugation" class="response-text" title="English conjugation"/>
+                                        &nbsp;
+                                        <button type="button" class="btn btn-default btn-vocal"
+                                                onclick="openTranslationWindow('en', '{{$verb['lang']}}', $('#englishConjugation'));">
+                                            <i class="fa fa-btn fa-question"></i>Get translation
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr><td colspan="2" class="verb-response-table-sep">&nbsp;</td></tr>
@@ -79,7 +84,11 @@
                                         Verb conjugation in {{$currentLanguage->language}}
                                     </td>
                                     <td class="verb-response-table-input">
-                                        <input type="text" name="foreignConjugation" value="{{$foreignConjugation}}" id="foreignConjugation" class="response-text" />
+                                        <input type="text" name="foreignConjugation" value="{{$foreignConjugation}}" id="foreignConjugation" class="response-text" title="Foreign conjugation" /> &nbsp;
+                                        <button type="button" class="btn btn-default btn-vocal"
+                                                onclick="openTranslationWindow('{{$verb['lang']}}', 'en', $('#foreignConjugation'));">
+                                            <i class="fa fa-btn fa-question"></i>Get translation
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr><td colspan="2" class="verb-response-table-sep">&nbsp;</td></tr>
@@ -128,6 +137,9 @@
 
 @section('page-scripts')
     <script type="text/javascript">
+
+        let translateWdw = null;
+
         function showHint() {
             $('#hint').toggle();
         }
@@ -145,6 +157,30 @@
         function getTenseDetails(pdf) {
             $('#embedId').attr('src', pdf);
             $('#popup-modal').appendTo("body").modal('show');
+        }
+
+        function openTranslationWindow(from, to, elem) {
+            let str = elem.val();
+            if ('' == str) {
+                alert("You must have a go at entering the " + elem.attr('title') + " version of the conjugated verb");
+                elem.focus();
+            } else {
+                let url = "https://translate.google.com/?sl=" + from + "&tl=" + to + "&text=" + str + "&op=translate";
+                if (null != translateWdw) {
+                    // This action does not work.  Probably a security feature.  Fiddled with it for quite a while.
+                    // I think due to hackers that the ability to interact with an opened popup has been tied down completely
+                    // Users should just close the popups manually
+                    // If you look at the console entry below you'll see that the window is opened with attribute 'closed = true',
+                    // which means we can't interact with it from here.  That means we open more and more popups.
+                    // Solution is inconvenient, which is that the user should simply close the windows as they go.  Humph!!
+                    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Opener-Policy
+                    translateWdw.close();
+                }
+                // Opens a popup window to assist with the translation
+                translateWdw = window.open(url, "translateWindow", "popup,width=800,height=200");
+
+//                console.log(translateWdw);
+            }
         }
 
         /**
