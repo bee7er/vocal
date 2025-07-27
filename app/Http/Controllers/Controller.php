@@ -12,6 +12,8 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    const TRANSLATE_WDW_TIP = "When using the 'Get translation' popups, it is not possible to close them automatically. Just close them as you go.";
+
     /**
      * Set a cookie to a given value
      * @param $cookieName

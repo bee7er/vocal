@@ -44,7 +44,7 @@
                                             Adverb in english
                                         </td>
                                         <td class="adverb-response-table-input">
-                                            <input type="text" name="englishAdverb" value="{{$englishAdverb}}" id="englishAdverb" class="response-text" />
+                                            <input type="text" name="englishAdverb" value="{{$englishAdverb}}" id="englishAdverb" title="Adverb in english" class="response-text" />
                                             &nbsp;
                                             <span id="hint" style="display: none">{{$adverb['english']}}</span>
                                         </td>
@@ -64,6 +64,11 @@
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
                                 &nbsp;
+                                <button type="button" class="btn btn-default btn-vocal"
+                                        onclick="openTranslationWindow('en', '{{$adverb['lang']}}', $('#englishAdverb'));">
+                                    <i class="fa fa-btn fa-question"></i>Get translation
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-adverb" onclick="checkAnswers();">
                                     <i class="fa fa-btn fa-check"></i>Check answers
                                 </button>
@@ -71,6 +76,13 @@
                                 <button type="button" class="btn btn-default btn-adverb" onclick="nextAdverb();">
                                     <i class="fa fa-btn fa-plus"></i>Next adverb
                                 </button>
+                            </div>
+                        </div>
+
+                        <!-- Tip -->
+                        <div class="form-group">
+                            <div class="translate-wdw-tip">
+                                {{$translateWdwTip}}
                             </div>
                         </div>
                     </form>

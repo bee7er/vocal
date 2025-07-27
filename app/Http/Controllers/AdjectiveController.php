@@ -132,8 +132,10 @@ class AdjectiveController extends Controller
 			$englishAdjective = $request->get("englishAdjective");
 		}
 
+		$translateWdwTip = self::TRANSLATE_WDW_TIP;
+
 		return view('pages.adjective', compact('currentLanguage', 'languageCode', 'languages', 'adjective',
-			'englishAdjective', 'loggedIn', 'errors', 'msgs'));
+			'englishAdjective', 'loggedIn', 'errors', 'msgs', 'translateWdwTip'));
 	}
 
 	/**

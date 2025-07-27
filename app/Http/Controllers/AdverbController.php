@@ -132,8 +132,10 @@ class AdverbController extends Controller
 			$englishAdverb = $request->get("englishAdverb");
 		}
 
+		$translateWdwTip = self::TRANSLATE_WDW_TIP;
+
 		return view('pages.adverb', compact('currentLanguage', 'languageCode', 'languages', 'adverb',
-			'englishAdverb', 'loggedIn', 'errors', 'msgs'));
+			'englishAdverb', 'loggedIn', 'errors', 'msgs', 'translateWdwTip'));
 	}
 
 	/**

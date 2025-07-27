@@ -130,7 +130,7 @@ body {
 }
 
 .verb-response-table-prompt, .adverb-response-table-prompt, .adjective-response-table-prompt {
-    width: 50%;
+    width: 40%;
 }
 
 .verb-response-table-input, .adverb-response-table-input, .adjective-response-table-input {
@@ -172,4 +172,11 @@ body {
 
 .input-filter {
     margin: 0px 20px 10px 20px;
+}
+
+.translate-wdw-tip {
+    text-align: left;
+    padding-left: 15px;
+    color: #840000;
+    font-weight: bold;
 }

@@ -44,7 +44,7 @@
                                             Adjective in english
                                         </td>
                                         <td class="adjective-response-table-input">
-                                            <input type="text" name="englishAdjective" value="{{$englishAdjective}}" id="englishAdjective" class="response-text" />
+                                            <input type="text" name="englishAdjective" value="{{$englishAdjective}}" id="englishAdjective" title="Adjective in english" class="response-text" />
                                             &nbsp;
                                             <span id="hint" style="display: none">{{$adjective['english']}}</span>
                                         </td>
@@ -64,6 +64,11 @@
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
                                 &nbsp;
+                                <button type="button" class="btn btn-default btn-vocal"
+                                        onclick="openTranslationWindow('en', '{{$adjective['lang']}}', $('#englishAdjective'));">
+                                    <i class="fa fa-btn fa-question"></i>Get translation
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-adjective" onclick="checkAnswers();">
                                     <i class="fa fa-btn fa-check"></i>Check answers
                                 </button>
@@ -74,6 +79,13 @@
                             </div>
                         </div>
                     </form>
+
+                    <!-- Tip -->
+                    <div class="form-group">
+                        <div class="translate-wdw-tip">
+                            {{$translateWdwTip}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
