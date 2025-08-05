@@ -17,6 +17,7 @@
                     <form id="editAdverbForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
                         <input type="hidden" name="adverbId" id="adverbId" value="{{(isset($adverb) ? $adverb->id: null)}}" />
+                        <input type="hidden" name="returnToAdverb" id="returnToAdverb" value="{{$returnToAdverb}}" />
                         <input type="hidden" name="title" id="title" value="{{ $title }}" />
                         <input type="hidden" name="button" id="button" value="{{ $button  }}" />
 

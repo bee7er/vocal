@@ -143,6 +143,11 @@ class AdverbController extends Controller
 	 */
 	private function getAdverb(Request $request, $id = null)
 	{
+		if (null == $id) {
+			// Check if we've been given an id in the request, by the edit function
+			$id = $request->get('returnToAdverbId');
+		}
+
 		$builder = Adverb::select(
 			array(
 				'adverbs.id',

@@ -60,6 +60,10 @@
                                     <i class="fa fa-btn fa-home"></i>Home
                                 </button>
                                 &nbsp;
+                                <button type="button" class="btn btn-default btn-adverb" onclick="editAdverb('adverbForm', '{{ url('/editAdverb')}}');">
+                                    <i class="fa fa-btn fa-pencil"></i>Edit
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-adverb" onclick="showHint();">
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
@@ -100,13 +104,15 @@
         }
 
         function checkAnswers() {
-            $('#adverbForm').attr("action", "{{ url('checkAdverbAnswers')}}");
-            $('#adverbForm').submit();
+            $('#adverbForm').attr("action", "{{ url('checkAdverbAnswers')}}").submit();
         }
 
         function nextAdverb() {
-            $('#adverbForm').attr("action", "{{ url('nextAdverb')}}");
-            $('#adverbForm').submit();
+            $('#adverbForm').attr("action", "{{ url('nextAdverb')}}").submit();
+        }
+
+        function editAdverb() {
+            $('#adverbForm').attr("action", "{{ url('/editAdverb') }}").submit();
         }
 
         $(document).ready( function()

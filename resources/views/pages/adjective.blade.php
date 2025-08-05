@@ -60,6 +60,10 @@
                                     <i class="fa fa-btn fa-home"></i>Home
                                 </button>
                                 &nbsp;
+                                <button type="button" class="btn btn-default btn-adverb" onclick="editAdjective('adjectiveForm', '{{ url('/editAdjective')}}');">
+                                    <i class="fa fa-btn fa-pencil"></i>Edit
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-adjective" onclick="showHint();">
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
@@ -100,13 +104,15 @@
         }
 
         function checkAnswers() {
-            $('#adjectiveForm').attr("action", "{{ url('checkAdjectiveAnswers')}}");
-            $('#adjectiveForm').submit();
+            $('#adjectiveForm').attr("action", "{{ url('checkAdjectiveAnswers')}}").submit();
         }
 
         function nextAdjective() {
-            $('#adjectiveForm').attr("action", "{{ url('nextAdjective')}}");
-            $('#adjectiveForm').submit();
+            $('#adjectiveForm').attr("action", "{{ url('nextAdjective')}}").submit();
+        }
+
+        function editAdjective() {
+            $('#adjectiveForm').attr("action", "{{ url('/editAdjective') }}").submit();
         }
 
         $(document).ready( function()

@@ -110,6 +110,10 @@
                                     <i class="fa fa-btn fa-home"></i>Home
                                 </button>
                                 &nbsp;
+                                <button type="button" class="btn btn-default btn-adverb" onclick="editVerb('verbForm', '{{ url('/editVerb')}}');">
+                                    <i class="fa fa-btn fa-pencil"></i>Edit
+                                </button>
+                                &nbsp;
                                 <button type="button" class="btn btn-default btn-vocal" onclick="showHint();">
                                     <i class="fa fa-btn fa-question"></i>Hint
                                 </button>
@@ -150,18 +154,20 @@
         }
 
         function checkAnswers() {
-            $('#verbForm').attr("action", "{{ url('checkAnswers')}}");
-            $('#verbForm').submit();
+            $('#verbForm').attr("action", "{{ url('checkAnswers')}}").submit();
         }
 
         function nextVerb() {
-            $('#verbForm').attr("action", "{{ url('nextVerb')}}");
-            $('#verbForm').submit();
+            $('#verbForm').attr("action", "{{ url('nextVerb')}}").submit();
         }
 
         function getTenseDetails(pdf) {
             $('#embedId').attr('src', pdf);
             $('#popup-modal').appendTo("body").modal('show');
+        }
+
+        function editVerb() {
+            $('#verbForm').attr("action", "{{ url('/editVerb') }}").submit();
         }
 
         /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\VerbController;
 use App\Http\Controllers\Controller;
 use App\Language;
 use App\Verb;
@@ -126,9 +127,11 @@ class AdminVerbController extends Controller
 
 		$title = "Edit Verb";
 		$button = "Update";
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToVerb = urlAction();
 
 		return view('pages.admin.editVerb', compact('title', 'button', 'currentLanguage',
-			'languageCode', 'languages', 'verb', 'loggedIn', 'errors', 'msgs'));
+			'languageCode', 'languages', 'verb', 'loggedIn', 'returnToVerb', 'errors', 'msgs'));
 	}
 
 	/**
@@ -177,10 +180,10 @@ class AdminVerbController extends Controller
 		$languages = Language::getLanguages();
 		$currentLanguage = self::getCurrentLanguage();
 
+		$verbId = $request->get('verbId');
+
 		$verb = $pos = $fil = null;
 		try {
-			$verbId = $request->get('verbId');
-
 			if (isset($verbId) && is_numeric($verbId) && $verbId > 0) {
 				$verb = $this->getVerb($request, $verbId);
 				$verb->infinitive = $request->get('infinitive');
@@ -214,6 +217,15 @@ class AdminVerbController extends Controller
 
 			return view('pages.admin.editVerb', compact('title', 'button', 'currentLanguage',
 				'languageCode', 'languages', 'verb', 'loggedIn', 'errors', 'msgs'));
+		}
+
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToVerb = $request->get('returnToVerb');
+		if ('workWithVerbs' != $returnToVerb) {
+			// We have come from the play-with function, return there
+			$request->merge(["returnToVerbId" => $verbId]);
+
+			return (new VerbController($this->auth))->index($request);
 		}
 
 		return Redirect::to("/workWithVerbs/$pos/$fil");

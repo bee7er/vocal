@@ -200,6 +200,11 @@ class VerbController extends Controller
 	 */
 	private function getVerb($request, $id = null)
 	{
+		if (null == $id) {
+			// Check if we've been given an id in the request, by the edit function
+			$id = $request->get('returnToVerbId');
+		}
+
 		$builder = Verb::select(
 			array(
 				'verbs.id',

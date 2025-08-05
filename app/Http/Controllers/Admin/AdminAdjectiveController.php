@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\AdjectiveController;
 use App\Http\Controllers\Controller;
 use App\Language;
 use App\Adjective;
@@ -126,9 +127,11 @@ class AdminAdjectiveController extends Controller
 
 		$title = "Edit Adjective";
 		$button = "Update";
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToAdjective = urlAction();
 
 		return view('pages.admin.editAdjective', compact('title', 'button', 'currentLanguage',
-			'languageCode', 'languages', 'adjective', 'loggedIn', 'errors', 'msgs'));
+			'languageCode', 'languages', 'adjective', 'loggedIn', 'returnToAdjective' , 'errors', 'msgs'));
 	}
 
 	/**
@@ -177,10 +180,10 @@ class AdminAdjectiveController extends Controller
 		$languages = Language::getLanguages();
 		$currentLanguage = self::getCurrentLanguage();
 
+		$adjectiveId = $request->get('adjectiveId');
+
 		$adjective = $pos = $fil = null;
 		try {
-			$adjectiveId = $request->get('adjectiveId');
-
 			if (isset($adjectiveId) && is_numeric($adjectiveId) && $adjectiveId > 0) {
 				$adjective = $this->getAdjective($request, $adjectiveId);
 				$adjective->adjective = $request->get('adjective');
@@ -211,6 +214,15 @@ class AdminAdjectiveController extends Controller
 
 			return view('pages.admin.editAdjective', compact('title', 'button', 'currentLanguage',
 				'languageCode', 'languages', 'adjective', 'loggedIn', 'errors', 'msgs'));
+		}
+
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToAdjective = $request->get('returnToAdjective');
+		if ('workWithAdjectives' != $returnToAdjective) {
+			// We have come from the play-with function, return there
+			$request->merge(["returnToAdjectiveId" => $adjectiveId]);
+
+			return (new AdjectiveController($this->auth))->index($request);
 		}
 
 		return Redirect::to("/workWithAdjectives/$pos/$fil");

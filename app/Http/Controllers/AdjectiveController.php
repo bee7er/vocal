@@ -143,6 +143,11 @@ class AdjectiveController extends Controller
 	 */
 	private function getAdjective(Request $request, $id = null)
 	{
+		if (null == $id) {
+			// Check if we've been given an id in the request, by the edit function
+			$id = $request->get('returnToAdjectiveId');
+		}
+
 		$builder = Adjective::select(
 			array(
 				'adjectives.id',

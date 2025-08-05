@@ -17,6 +17,7 @@
                     <form id="editAdjectiveForm" action="" method="POST" class="form-horizontal">
                         {{ csrf_field() }}
                         <input type="hidden" name="adjectiveId" id="adjectiveId" value="{{(isset($adjective) ? $adjective->id: null)}}" />
+                        <input type="hidden" name="returnToAdjective" id="returnToAdjective" value="{{$returnToAdjective}}" />
                         <input type="hidden" name="title" id="title" value="{{ $title }}" />
                         <input type="hidden" name="button" id="button" value="{{ $button  }}" />
 
