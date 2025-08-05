@@ -181,6 +181,8 @@ class AdminAdverbController extends Controller
 		$currentLanguage = self::getCurrentLanguage();
 
 		$adverbId = $request->get('adverbId');
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToAdverb = $request->get('returnToAdverb');
 
 		$adverb = $pos = $fil = null;
 		try {
@@ -213,11 +215,9 @@ class AdminAdverbController extends Controller
 			$button = $request->get('button');
 
 			return view('pages.admin.editAdverb', compact('title', 'button', 'currentLanguage',
-				'languageCode', 'languages', 'adverb', 'loggedIn', 'errors', 'msgs'));
+				'languageCode', 'languages', 'adverb', 'loggedIn', 'returnToAdverb', 'errors', 'msgs'));
 		}
 
-		// We may have navigated here from the play-with function, if so we want to return there.
-		$returnToAdverb = $request->get('returnToAdverb');
 		if ('workWithAdverbs' != $returnToAdverb) {
 			// We have come from the play-with function, return there
 			$request->merge(["returnToAdverbId" => $adverbId]);

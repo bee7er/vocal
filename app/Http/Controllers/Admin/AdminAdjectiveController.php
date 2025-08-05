@@ -181,6 +181,8 @@ class AdminAdjectiveController extends Controller
 		$currentLanguage = self::getCurrentLanguage();
 
 		$adjectiveId = $request->get('adjectiveId');
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToAdjective = $request->get('returnToAdjective');
 
 		$adjective = $pos = $fil = null;
 		try {
@@ -216,8 +218,6 @@ class AdminAdjectiveController extends Controller
 				'languageCode', 'languages', 'adjective', 'loggedIn', 'errors', 'msgs'));
 		}
 
-		// We may have navigated here from the play-with function, if so we want to return there.
-		$returnToAdjective = $request->get('returnToAdjective');
 		if ('workWithAdjectives' != $returnToAdjective) {
 			// We have come from the play-with function, return there
 			$request->merge(["returnToAdjectiveId" => $adjectiveId]);

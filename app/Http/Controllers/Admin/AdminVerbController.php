@@ -181,6 +181,8 @@ class AdminVerbController extends Controller
 		$currentLanguage = self::getCurrentLanguage();
 
 		$verbId = $request->get('verbId');
+		// We may have navigated here from the play-with function, if so we want to return there.
+		$returnToVerb = $request->get('returnToVerb');
 
 		$verb = $pos = $fil = null;
 		try {
@@ -195,7 +197,6 @@ class AdminVerbController extends Controller
 				$pos = $verb->infinitive;
 
 			} else {
-				//dd($request->all());
 				$verbAry = [
 					"infinitive" => $request->get('infinitive'),
 					"english" => $request->get('english'),
@@ -216,11 +217,9 @@ class AdminVerbController extends Controller
 			$button = $request->get('button');
 
 			return view('pages.admin.editVerb', compact('title', 'button', 'currentLanguage',
-				'languageCode', 'languages', 'verb', 'loggedIn', 'errors', 'msgs'));
+				'languageCode', 'languages', 'verb', 'loggedIn', 'returnToVerb', 'errors', 'msgs'));
 		}
 
-		// We may have navigated here from the play-with function, if so we want to return there.
-		$returnToVerb = $request->get('returnToVerb');
 		if ('workWithVerbs' != $returnToVerb) {
 			// We have come from the play-with function, return there
 			$request->merge(["returnToVerbId" => $verbId]);
